@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  /* background-color: black; */
+  background-image: url(../src/assets/bg-2-texter.jpg);
+  background-size: cover;
+  height: 100vh;
+  color: white;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
+
+  font-family: "Afacad", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+.st-text {
+  font-family: "Post No Bills Colombo Regular" !important;
+}
+.gt-text {
+  background-image: linear-gradient(
+    90deg,
+    #00ffff 25%,
+    #ff8486 50%,
+    #00b2ff 75%,
+    #ffffff 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 42px !important;
+}
+.gta-text {
+  background-image: linear-gradient(
+    90deg,
+    #00ffff 25%,
+    #ff8486 50%,
+    #00b2ff 75%,
+    #ffffff 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 42px !important;
+}
+
+.mn-text {
+  background-image: linear-gradient(
+    90deg,
+    #00ffff 25%,
+    #ff8486 50%,
+    #00b2ff 75%,
+    #ffffff 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+@media (max-width: 480px) {
+  .gta-text {
+    font-size: 30px !important; /* Even smaller text for very small screens */
+  }
+}
+
+@layer utilities {
+  .backdrop-blur-4 {
+    backdrop-filter: blur(16px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes pingBig {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pingSmall {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+.animate-pingBig {
+  animation: pingBig 1.8s ease-in-out infinite;
+}
+
+.animate-pingSmall {
+  animation: pingSmall 1.5s ease-in-out infinite;
+}
