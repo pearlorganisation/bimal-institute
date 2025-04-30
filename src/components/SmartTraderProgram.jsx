@@ -68,9 +68,9 @@ const SmartTraderProgram = () => {
           className="bg-gray-800 bg-opacity-50 text-gray-300 p-1 rounded-lg border-l-4 border-yellow-400 shadow-md flex items-center max-w-full md:max-w-[75%]"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
         >
-          {/* <span className="text-yellow-400 text-xl mr-2">⭐</span> */}
-          <Test />
-          <p className="text-white 2xl:text-xl">
+          
+          <img src="/stars.webp" alt="" className="h-6 w-6 " />
+          <p className="pl-2 uppercase text-white 2xl:text-lg">
             Available in offline and online mode
           </p>
         </motion.div>
@@ -83,11 +83,11 @@ const SmartTraderProgram = () => {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="mt-6 flex gap-4 justify-center md:justify-start"
         >
-          <button className="bg-gradient-to-r from-[#0980FF] to-[#292929]  px-2 sm:px-6   py-2 rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929]">
-            <Link to="/program"> Know More</Link>
+          <button className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929]">
+            <Link to="/program">Know More</Link>
           </button>
           <button className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929]">
-            <Link to="/contact"> Apply Now</Link>
+            <Link to="/contact">Apply Now</Link>
           </button>
         </motion.div>
       </div>
