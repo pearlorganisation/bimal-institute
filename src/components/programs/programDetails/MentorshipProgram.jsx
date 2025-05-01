@@ -98,7 +98,7 @@ const MentorshipProgram = () => {
               loop
               muted
               playsInline
-              className="absolute top-0 left-0 w-full h-full 3xl:h-[141%]  object-cover rounded-xl"
+              className="relative top-1/2 -translate-y-1/2 left-0 w-full h-full 3xl:h-[141%]  object-cover rounded-xl opacity-50"
             >
               <source src={bagroundimage} type="video/mp4" />
               Your browser does not support the video tag.
@@ -113,10 +113,10 @@ const MentorshipProgram = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="relative z-10 mt-1 sm:mt-16 md:mt-0 lg:mt-5  xl:mt-[5.5rem] 2xl:mt-32 2.5xl:mt-40 3xl:mt-44"
+              className="absolute z-10 translate-y-1/2"
             >
               <p className="text-[0.5rem] sm:text-base  2xl:text-[1.3rem]">
-                Gain a better understanding of options trading
+                Gain a better understanding of option trading
               </p>
               <p className="text-[0.5rem] sm:text-base  2xl:text-[1.3rem] 2xl:mt-4">
                 Trade alongside experienced mentors
@@ -137,6 +137,7 @@ const MentorshipProgram = () => {
                 Weekly trade journal analysis
               </p>
             </motion.div>
+
           </div>
 
           {/* Right Column destop view */}

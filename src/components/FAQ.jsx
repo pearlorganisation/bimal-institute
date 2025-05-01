@@ -5,9 +5,13 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
+    // {
+    //   question: "Does this course cover live trading?",
+    //   answer: "Yes, out of 60 days, live trading will be covered for 40 days.",
+    // },
     {
-      question: "Does this course cover live trading?",
-      answer: "Yes, out of 60 days, live trading will be covered for 40 days.",
+      question: "Does This Course Cover Practical Approach ?",
+      answer: "Yes"
     },
     {
       question:
@@ -27,10 +31,15 @@ const FAQ = () => {
         "Yes, as per the laws set by the Government of India, only individuals above 16 years of age can enroll. However, there are no specific educational qualifications required to join the program.",
     },
     {
-      question: "How much capital is needed for live trading?",
-      answer:
-        "We recommend a minimum capital of ₹25,000 to ensure an effective learning experience and to grasp the right trading curve.",
+      question: "How Much Capital Is Required?",
+      answer: "same as provided"
     },
+
+    // {
+    //   question: "How much capital is needed for live trading?",
+    //   answer:
+    //     "We recommend a minimum capital of ₹25,000 to ensure an effective learning experience and to grasp the right trading curve.",
+    // },
     {
       question: "After completing the course, will I receive guidance?",
       answer:
@@ -72,7 +81,7 @@ const FAQ = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="text-gray-300 text-sm md:text-xl  2xl:text-[1.7rem] font-medium tracking-widest mt-1"
+              className="text-gray-300 w-full md:w-auto text-center text-xl md:text-left md:text-3xl  2xl:text-4xl font-medium tracking-widest mt-1"
               style={{
                 fontFamily: "'Merriweather', serif",
               }}

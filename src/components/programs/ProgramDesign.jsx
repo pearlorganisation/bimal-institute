@@ -47,12 +47,14 @@ const ProgramDesign = () => {
               Why You Need Mentorship?
             </h2>
             <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-              This program allows students to extend their access to our trading
-              lounges for an additional month. Members receive direct training
-              and personalized guidance from Mr. Manish Bimal. Under the
-              membership program, we focus on identifying the right trading
-              style for each student and developing the appropriate mindset to
-              succeed.
+              This program is the backbone of the "Be a Trader 2.0"
+              initiative, as it introduces aspiring traders to the market
+              under the guidance of experienced mentors. Mentors provide
+              hands-on support during trading, ensuring that every doubt is
+              addressed and resolved. The essence of mentorship lies in
+              trading under the supervision of experienced traders. Bimal
+              Institute boasts a team of highly experienced mentors — the
+              largest in India.
             </p>
           </motion.div>
 
@@ -102,17 +104,17 @@ const ProgramDesign = () => {
               style={{ backgroundColor: "rgba(72, 72, 72, 0.2)" }}
             >
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-                Why You Need Mentorship?
+                Why You Need Membership?
               </h2>
               <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-                This program is the backbone of the "Be a Trader 2.0"
-                initiative, as it introduces aspiring traders to the market
-                under the guidance of experienced mentors. Mentors provide
-                hands-on support during trading, ensuring that every doubt is
-                addressed and resolved. The essence of mentorship lies in
-                trading under the supervision of experienced traders. Bimal
-                Institute boasts a team of highly experienced mentors — the
-                largest in India.
+
+                This program allows students to extend their access to our trading
+                lounges for an additional month. Members receive direct training
+                and personalized guidance from Mr. Manish Bimal. Under the
+                membership program, we focus on identifying the right trading
+                style for each student and developing the appropriate mindset to
+                succeed.
+
               </p>
             </motion.div>
 

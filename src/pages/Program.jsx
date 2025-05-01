@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 import TraderProgram from "../components/programs/TraderProgram";
 import Navbar from "./Navbar";
 import FixedSidebarButtons from "./FixedSidebarButtons";
-import Test2 from "./Test2";
+import PixelsWithPurpose from "./Test2";
 
 function Program() {
   return (
@@ -22,7 +22,7 @@ function Program() {
       {/* <Download /> */}
       <StudentReviews />
       {/* <StillQue /> */}
-      <Test2 />
+      <PixelsWithPurpose />
       <ContactUsForm />
       <Footer />
     </div>

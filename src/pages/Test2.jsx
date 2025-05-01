@@ -1,28 +1,36 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 export default function PixelsWithPurpose() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const isInView = useInView(ref, { once: true, margin: "-100px" }); // Trigger when slightly in view
 
   return (
     <section
       ref={ref}
       className="relative h-screen bg-black flex items-center justify-center overflow-hidden"
     >
+
+
+      <motion.img
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="absolute top-0 left-0 w-full blur-[2px]"
+        src="/halftone-bg.svg"
+      />
+
+
+
       <motion.h1
-        style={{ y, opacity }}
-        className="text-white text-6xl md:text-8xl font-bold text-center leading-tight"
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="text-white text-6xl md:text-8xl font-bold text-center leading-tight z-1"
       >
-        Pixels
+        Creating Traders
         <br />
-        with Purpose
+        Since 2016
       </motion.h1>
     </section>
   );

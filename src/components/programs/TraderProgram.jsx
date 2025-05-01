@@ -532,7 +532,7 @@ const TraderProgram = () => {
               <li>OI Built Up Analysis</li>
               <li> Max Pain Analysis</li>
               <li>India Vix & Implied Volatility Analysis</li>
-              <li> Options Greeks</li>
+              <li> Option Greeks</li>
               <li>Tracking FII / DII Derivative Statistics</li>
               <li> Option Buyer VS Option Writer</li>
               <li> Margin Reduction Using Hedging</li>
@@ -1037,7 +1037,7 @@ const TraderProgram = () => {
               <li>OI Built Up Analysis</li>
               <li> Max Pain Analysis</li>
               <li>India Vix & Implied Volatility Analysis</li>
-              <li> Options Greeks</li>
+              <li> Option Greeks</li>
               <li>Tracking FII / DII Derivative Statistics</li>
               <li> Option Buyer VS Option Writer</li>
               <li> Margin Reduction Using Hedging</li>

@@ -75,8 +75,8 @@ const CourseInformation = () => {
             align="right"
           />
           <Section
-            title="Options Mantra"
-            description="Delve into high-level market insights to refine your options trading approach. You'll learn to analyze market sentiment, track institutional activity, and manage risk efficiently. With a focus on strategic positioning and volatility-based adjustments, this module will help you enhance trade execution, optimize capital usage, and improve overall profitability in options trading."
+            title="Option Mantra"
+            description="Delve into high-level market insights to refine your option trading approach. You'll learn to analyze market sentiment, track institutional activity, and manage risk efficiently. With a focus on strategic positioning and volatility-based adjustments, this module will help you enhance trade execution, optimize capital usage, and improve overall profitability in option trading."
             align="right"
           />
         </div>

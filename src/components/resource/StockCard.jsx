@@ -72,7 +72,7 @@ const StockCard = () => {
                     window.scrollTo(0, 0);
                     navigate(blog.link);
                   }}
-                  className="mt-4 px-4 py-2 bg-gray-800 2xl:text-[1rem] rounded-lg text-sm"
+                  className="mt-2 bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929]"
                 >
                   Read More
                 </button>

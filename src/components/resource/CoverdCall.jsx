@@ -81,7 +81,7 @@ const CoveredCall = () => {
                 viewport={{ amount: 0.2 }}
                 className="text-gray-300 2xl:text-2xl"
               >
-                The Covered Call strategy is a popular approach in options
+                The Covered Call strategy is a popular approach in option
                 trading where an investor holds a stock and sells a call option
                 on that same stock. By doing this, you collect a premium from
                 the buyer of the option, which acts as extra income. Investors
@@ -177,7 +177,7 @@ const CoveredCall = () => {
                 returns, selling a covered call can help. For example, someone
                 with a long-term portfolio who doesn’t mind letting go of shares
                 at a set price can use it to make money on the side. Lastly,
-                it’s great for beginners in options trading who want a low-risk
+                it’s great for beginners in option trading who want a low-risk
                 start. You don’t need to be an expert—just own the stock, sell
                 the call option, and collect the premium. It’s ideal for patient
                 Indian investors who prefer steady gains over gambling on wild
@@ -207,11 +207,11 @@ const CoveredCall = () => {
                 way for stock market investors to earn extra income while
                 managing risk, especially in the Indian market. Whether you’re a
                 cautious trader, a long-term shareholder, or a beginner
-                exploring options trading, this approach lets you profit from
+                exploring option trading, this approach lets you profit from
                 premiums without betting on big price jumps. By using this
                 strategy with stocks like ABC Ltd., you can boost returns in a
                 flat or falling market, making it a must-know tool for anyone
-                searching for "best options trading strategies" or "how to earn
+                searching for "best option trading strategies" or "how to earn
                 in a stable market" on Google. It’s a low-risk, high-reward move
                 for steady gains!
               </motion.p>
