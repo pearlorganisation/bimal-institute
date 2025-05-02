@@ -43,7 +43,7 @@ const LifeAtBimalInstitute = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-5xl lg:text-6xl 2xl:text-[5.3rem] font-bold bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+            className="text-5xl lg:text-6xl 2xl:text-[5.3rem] font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
             style={{ fontFamily: "'League Spartan', sans-serif" }}
           >
             LIFE

@@ -67,7 +67,7 @@ const VideoComponent = () => {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text font-bold text-3xl md:text-4xl lg:text-5xl py-12"
+          className="bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text font-bold text-3xl md:text-4xl lg:text-5xl py-12"
         >
           Chronicles of BI
         </motion.h2> */}
@@ -79,7 +79,7 @@ const VideoComponent = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="text-4xl lg:text-6xl 2xl:text-[4.2rem] font-bold bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+              className="text-4xl lg:text-6xl 2xl:text-[4.2rem] font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
               style={{ fontFamily: "'League Spartan', sans-serif" }}
             >
               Chronicles
@@ -115,7 +115,7 @@ const VideoComponent = () => {
                   onClickPreview={() => handleVideoClick(video.id)} // Click to play
                 />
               </div>
-              <p className="bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text my-2 3xl:my-4 text-lg xl:text-[1.7rem] 3xl:text-[1.9rem] xl:font-medium opacity-45">
+              <p className="bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text my-2 3xl:my-4 text-lg xl:text-[1.7rem] 3xl:text-[1.9rem] xl:font-medium opacity-45">
                 {video.label}
               </p>
             </div>

@@ -88,7 +88,7 @@ const ContactUsForm = () => {
           Bimal Institute For Market Research
         </h2>
         <p
-          className="text-xl sm:text-2xl    font-bold bg-gradient-to-r from-[#3195FF] via-[#3195FF] to-[#0940E6] text-transparent bg-clip-text mb-4"
+          className="text-xl sm:text-2xl    font-bold bg-gradient-to-r from-[#4da3ff ] via-[#298df7] to-[#0940E6] text-transparent bg-clip-text mb-4"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
         >
           Connect With Us
@@ -169,7 +169,7 @@ const ContactUsForm = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ amount: 0.2 }}
             type="submit"
-            className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929]"
+            className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300"
           >
             Submit
           </motion.button>

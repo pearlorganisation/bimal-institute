@@ -41,7 +41,7 @@ const TrumpEconomy = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeIn" }}
           viewport={{ amount: 0.2 }}
-          className="text-4xl md:text-5xl 2xl:text-6xl font-extrabold mb-6 drop-shadow-lg bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+          className="text-4xl md:text-5xl 2xl:text-6xl font-extrabold mb-6 drop-shadow-lg bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
         >
           The Trump Effect on Global Economy

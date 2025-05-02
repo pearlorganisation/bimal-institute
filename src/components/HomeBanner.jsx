@@ -56,7 +56,7 @@ const HomeBanner = () => {
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="bg-gradient-to-r from-[#3195FF] via-[#3195FF] to-[#0940E6] text-transparent bg-clip-text text-3xl md:text-5xl  2xl:[3.8rem] font-semibold"
+            className="bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text text-3xl md:text-5xl  2xl:[3.8rem] font-semibold"
             style={{ fontFamily: "TheFalley, sans-serif" }}
           >
             Featured In

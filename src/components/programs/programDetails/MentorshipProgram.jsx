@@ -40,7 +40,7 @@ const MentorshipProgram = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-3xl md:text-5xl 2xl:text-7xl font-bold bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+          className="text-3xl md:text-5xl 2xl:text-7xl font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
         >
           Mentorship Program
@@ -127,7 +127,7 @@ const MentorshipProgram = () => {
               <p className="text-[0.5rem] sm:text-base  2xl:text-[1.3rem]">
                 Get daily counseling from mentors
               </p>
-              <p className="text-[0.5rem] sm:text-base  2xl:text-[1.3rem] 2xl:mt-4 bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text ">
+              <p className="text-[0.5rem] sm:text-base  2xl:text-[1.3rem] 2xl:mt-4 bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text ">
                 Access the trading lounge from 9 AM – 5 PM
               </p>
               <p className="text-[0.5rem] sm:text-base  2xl:text-[1.3rem] 2xl:mt-4">

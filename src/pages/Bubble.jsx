@@ -135,7 +135,7 @@ const BubbleComponent = () => {
         className="text-3xl mb-6 mt-8 lg:text-5xl font-bold uppercase"
         style={{ fontFamily: "'League Spartan', sans-serif" }}
       >
-        <span className="font-bold text-6xl lg:text-6xl  2xl:text-[5.2rem] bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text">
+        <span className="font-bold text-6xl lg:text-6xl  2xl:text-[5.2rem] bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text">
           WHAT
         </span>
         <span
@@ -151,7 +151,7 @@ const BubbleComponent = () => {
         whileInView={{ opacity: 0.23, y: 0 }}
         viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="absolute text-6xl md:text-[9.5rem]   font-bold bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text opacity-55"
+        className="absolute text-6xl md:text-[9.5rem]   font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text opacity-55"
         style={{ fontFamily: "'League Spartan', sans-serif" }}
       >
         Everything

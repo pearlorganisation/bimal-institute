@@ -93,7 +93,7 @@ const Section = ({ title, description, align = "left" }) => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ amount: 0.2 }}
-        className="bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text text-3xl md:text-5xl   2xl:text-[4rem] 2xl:font-bold font-semibold"
+        className="bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text text-3xl md:text-5xl   2xl:text-[4rem] 2xl:font-bold font-semibold"
         style={{ fontFamily: "'League Spartan', sans-serif" }}
       >
         {title}

@@ -44,7 +44,7 @@ const Footer = () => {
           href="/assets/Disclaimers.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline bg-gradient-to-r from-[#3195FF] via-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+          className="hover:underline bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
         >
           Disclaimer
         </a>
@@ -53,7 +53,7 @@ const Footer = () => {
           href="/assets/Privacy_policy_for_website.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline tracking-wide bg-gradient-to-r from-[#3195FF] via-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+          className="hover:underline tracking-wide bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
         >
           Privacy Policy
         </a>
@@ -62,7 +62,7 @@ const Footer = () => {
           href="/assets/Fee_policy.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline tracking-wide bg-gradient-to-r from-[#3195FF] via-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+          className="hover:underline tracking-wide bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
         >
           Refund Policy
         </a>

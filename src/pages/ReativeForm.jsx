@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CollageImg from "../assets/collage1.jpg";
+// import CollageImg from "../assets/collage1.jpg";
+import { formImages } from "../utils/data";
 
 const ExpertPopup = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -10,7 +11,7 @@ const ExpertPopup = () => {
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [city, setCity] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => setShowPopup(true), 3000);
@@ -20,7 +21,7 @@ const ExpertPopup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !email || !message) {
+    if (!name || !email) {
       toast.error("Please fill out all required fields.");
       return;
     }
@@ -35,22 +36,22 @@ const ExpertPopup = () => {
       from_number: number,
       from_city: city,
       to_name: "Bimal Institude Team",
-      message: message,
+      // message: message,
     };
 
     emailjs
       .send(serviceId, templateId, templateParams, publicKey)
       .then(() => {
-        toast.success("Message sent successfully!");
+        toast.success("Enquiry request sent successfully!");
         setName("");
         setEmail("");
         setNumber("");
         setCity("");
-        setMessage("");
+        // setMessage("");
         setShowPopup(false);
       })
       .catch(() => {
-        toast.error("Failed to send the message. Please try again.");
+        toast.error("Failed to send the enquiry request. Please try again.");
       });
   };
 
@@ -68,12 +69,17 @@ const ExpertPopup = () => {
         </button>
 
         {/* Left Side - Images */}
-        <div className="hidden md:block md:w-1/2 h-[600px] overflow-hidden">
-          <img
-            src={CollageImg}
-            alt="Expert"
-            className="w-full h-full object-contain"
-          />
+        <div className="hidden md:block md:w-[45%] overflow-hidden">
+          <div className="flex gap-2 flex-wrap">
+            {formImages?.map((item) => (
+              <img
+                src={item?.path}
+                alt=""
+                className="w-full h-full max-w-[200px] object-contain"
+              />
+
+            ))}
+          </div>
         </div>
 
         {/* Right Side - Form */}
@@ -97,7 +103,7 @@ const ExpertPopup = () => {
 
             <div className="flex gap-2">
               <span
-                className="pr-2 text-sm content-center"
+                className="pr-2 text-sm content-center bg-white rounded-md border border-gray-200 text-center"
                 style={{ width: "80px" }}
               >
                 IN +91
@@ -107,7 +113,7 @@ const ExpertPopup = () => {
                 placeholder="Phone"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
-                className="w-2/3 border p-3 rounded text-sm"
+                className="w-full border p-3 rounded text-sm"
               />
             </div>
 
@@ -128,20 +134,22 @@ const ExpertPopup = () => {
               className="w-full border p-3 rounded text-sm"
             />
 
-            <textarea
+            {/* <textarea
               placeholder="Message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full border p-3 rounded text-sm h-24 resize-none"
               required
-            ></textarea>
+            ></textarea> */}
 
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929]"
-            >
-              Submit
-            </button>
+            <div className="w-full">
+              <button
+                type="submit"
+                className="w-2/3 bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300 transition duration-300"
+              >
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       </div>

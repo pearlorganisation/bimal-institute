@@ -32,7 +32,7 @@ const Content = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-3xl md:text-5xl  2xl:text-[4.5rem] font-bold bg-gradient-to-r from-[#3195FF] to-[#0940E6] text-transparent bg-clip-text"
+            className="text-3xl md:text-5xl  2xl:text-[4.5rem] font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
             style={{ fontFamily: "'League Spartan', sans-serif" }}
           >
             Manish Bimal
