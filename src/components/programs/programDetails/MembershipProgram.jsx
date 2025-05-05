@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
 import StudentReviews from "./StudentReviews";
 import StillQue from "../../StillQue";
 import ContactUsForm from "../../ContactUsForm";
@@ -12,8 +12,27 @@ import Img3 from "../../../assets/mentor13.webp";
 import Img4 from "../../../assets/mentor14.webp";
 import Img5 from "../../../assets/mentor15.webp";
 import AnimatedText from "./AnimatedText";
+import TimelineItem from "./TimelineItem";
 
 const MembershipProgram = () => {
+  const [activeSection, setActiveSection] = useState(0);
+  const sectionRefs = useRef([]);
+
+  const section1Refs = useRef([]);
+  const [scrollPercentage, setScrollPercentage] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrolled = (scrollTop / docHeight) * 100;
+      setScrollPercentage(Math.min(100, Math.max(0, scrolled)));
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     const link = document.createElement("link");
     link.href =
@@ -21,6 +40,87 @@ const MembershipProgram = () => {
     link.rel = "stylesheet";
     document.head.appendChild(link);
   }, []);
+
+  const timelineData = [
+    {
+      id: 1,
+      title: "Process",
+      content: "",
+      image: Img1,
+      imageLeft: true,
+    },
+    {
+      id: 2,
+      title: "Why Do You Need Membership?",
+      content:
+        "Many students struggle to find a trading environment as effective as our trading lounge after completing the course. Membership provides a 1-month extended access to our premium trading lounges, ensuring you continue to learn and grow in a professional setting.",
+      image: Img2,
+      imageLeft: false,
+    },
+    {
+      id: 3,
+      title: "How Membership Works?",
+      content:
+        "Getting further trained under Manish Sir gives students a competitive edge after course completion. This process helps them identify their unique trading style and develop a clear roadmap to achieve success.",
+      image: Img3,
+      imageLeft: true,
+    },
+    {
+      id: 4,
+      title: "Who is Eligible?",
+      content:
+        "Students who have opted for and successfully completed their mentorship program are eligible for membership.",
+      image: Img4,
+      imageLeft: false,
+    },
+    {
+      id: 5,
+      title: "Benefits of Membership Program",
+      content: (
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Get 1-month extended access to our trading lounge.</li>
+          <li>Receive further guidance from Manish Bimal Sir.</li>
+          <li>Mentors will be available at scheduled times.</li>
+          <li>Psychology sessions.</li>
+          <li>Brainstorming sessions with Manish Sir.</li>
+        </ul>
+      ),
+      image: Img5,
+      imageLeft: true,
+    },
+  ];
+
+  useEffect(() => {
+    // Initialize refs array
+    sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+      // Check which section is currently in view
+      sectionRefs.current.forEach((section, index) => {
+        if (!section) return;
+
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          setActiveSection(index);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [timelineData.length]);
 
   const { scrollY } = useScroll();
 
@@ -42,7 +142,7 @@ const MembershipProgram = () => {
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-3xl  text-center md:text-5xl 2xl:text-[5.4rem] font-semibold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
@@ -65,7 +165,6 @@ const MembershipProgram = () => {
             LEARNING
           </motion.h1>
 
-          {/* Step 2: "LEARNING" With Strikethrough (Same Place) */}
           <motion.h1
             style={{
               opacity: strikeThroughOpacity,
@@ -91,7 +190,6 @@ const MembershipProgram = () => {
             </motion.span>
           </motion.h1>
 
-          {/* FINAL "EARNING" */}
           <motion.h1
             style={{
               opacity: earningOpacity,
@@ -107,11 +205,130 @@ const MembershipProgram = () => {
         </div>
       </div>
 
-      <AnimatedText className="flex sm:hidden" />
+      {/* <AnimatedText className="flex sm:hidden" /> */}
+
+      {/* Shubham 12356*/}
+
+      {/* <div className="min-h-screen hidden md:block bg-black text-white p-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-red-500">
+              <div
+                className="absolute top-0 left-0 w-full bg-green-500 transition-all duration-500 ease-in-out"
+                style={{
+                  height: `${
+                    ((activeSection + 1) / timelineData.length) * 100
+                  }%`,
+                }}
+              ></div>
+            </div>
+
+            <div
+              className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"
+              style={{ top: 0 }}
+            ></div>
+
+            <div className="relative z-10">
+              {timelineData.map((item, index) => (
+                <div
+                  key={item.id}
+                  ref={(el) => (sectionRefs.current[index] = el)}
+                  className={`flex items-center min-h-[300px] py-16`}
+                >
+                  <div
+                    className={`w-1/2 ${
+                      item.imageLeft ? "pr-12" : "text-right pr-12"
+                    }`}
+                  >
+                    {item.imageLeft ? (
+                      <div className="rounded-3xl overflow-hidden">
+                        <img
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.title}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <h2 className="text-3xl font-bold mb-4">
+                          {item.title}
+                        </h2>
+                        <div className="text-gray-300">{item.content}</div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
+
+                  <div
+                    className={`w-1/2 ${item.imageLeft ? "pl-12" : "pl-12"}`}
+                  >
+                    {item.imageLeft ? (
+                      <div>
+                        <h2 className="text-3xl font-bold mb-4">
+                          {item.title}
+                        </h2>
+                        <div className="text-gray-300">{item.content}</div>
+                      </div>
+                    ) : (
+                      <div className="rounded-3xl overflow-hidden">
+                        <img
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.title}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
+          </div>
+        </div>
+      </div> */}
+
+      <div className="min-h-screen hidden md:block bg-black text-white p-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative">
+            {/* Vertical Timeline Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1">
+              <div
+                className="absolute top-0 left-0 w-full transition-all duration-300 ease-in-out"
+                style={{
+                  height: `${scrollPercentage}%`,
+                  background: `linear-gradient(to bottom, green ${scrollPercentage}%)`,
+                }}
+              ></div>
+            </div>
+
+            <div
+              className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"
+              style={{ top: 0 }}
+            ></div>
+
+            <div className="relative z-10">
+              <div className="h-[100px]"></div>
+              {timelineData.map((item, index) => (
+                <TimelineItem
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  sectionRefs={sectionRefs}
+                />
+              ))}
+              <div className="h-[400px]"></div>
+            </div>
+
+            {/* End Dot */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
+          </div>
+        </div>
+      </div>
 
       {/* destop view  */}
-      <main class=" hidden md:flex w-[80%] 3xl:w-[75%] mx-auto text-white relative py-8 2xl:px-4 3xl:px-11 flex-wrap">
-        {/* <!--left  Sidebar --> */}
+      {/* <main class=" hidden md:flex w-[80%] 3xl:w-[75%] mx-auto text-white relative py-8 2xl:px-4 3xl:px-11 flex-wrap">
         <div class="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
           <div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
           <div class="absolute top-52 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
@@ -121,7 +338,6 @@ const MembershipProgram = () => {
           <div class="absolute bottom-[89rem] xl:bottom-[93rem] 2xl:bottom-[98rem] 2.5xl:bottom-[108rem] 3xl:bottom-[107rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
           <div class="absolute bottom-[13rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
 
-          {/* Media Components Module1 */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -139,7 +355,6 @@ const MembershipProgram = () => {
             </div>
           </motion.div>
 
-          {/* content components */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -158,7 +373,6 @@ const MembershipProgram = () => {
             </p>
           </motion.div>
 
-          {/* media components modue3*/}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -176,7 +390,6 @@ const MembershipProgram = () => {
             </div>
           </motion.div>
 
-          {/* content components */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -193,7 +406,6 @@ const MembershipProgram = () => {
             </p>
           </motion.div>
 
-          {/* media components module 5*/}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -212,9 +424,7 @@ const MembershipProgram = () => {
           </motion.div>
         </div>
 
-        {/*  rightside ..<!-- Main Content --> */}
         <div class="main-container-1 w-full md:w-6/12 flex flex-col">
-          {/* text content  */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -227,7 +437,6 @@ const MembershipProgram = () => {
             </div>
           </motion.div>
 
-          {/* media components module 2 */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -246,7 +455,6 @@ const MembershipProgram = () => {
             </div>
           </motion.div>
 
-          {/* content components */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -267,7 +475,6 @@ const MembershipProgram = () => {
             </p>
           </motion.div>
 
-          {/* media components module 4 */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -286,7 +493,6 @@ const MembershipProgram = () => {
             </div>
           </motion.div>
 
-          {/* content components */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -308,7 +514,190 @@ const MembershipProgram = () => {
             </p>
           </motion.div>
         </div>
-      </main>
+      </main> */}
+
+      {/* <main className="hidden md:flex w-[80%] 3xl:w-[75%] mx-auto text-white relative py-8 2xl:px-4 3xl:px-11 flex-wrap items-stretch">
+        <div className="absolute bg-red-500 top-0 mx-auto  left-1/2 transform -translate-x-1/2 h-full flex flex-col justify-between z-10">
+          {[1, 2, 3, 4, 5, 6, 7].map((top, index) => (
+            <div
+              key={index}
+              className="w-4 h-4 bg-white rounded-full  hidden md:block"
+            />
+          ))}
+        </div>
+
+        <div className="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col justify-between">
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <div className="w-full max-w-[90%] 3xl:max-w-[80%] rounded-[3.2rem] border-2 border-white overflow-hidden">
+              <img
+                src={Img1}
+                alt="img1"
+                loading="lazy"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:ml-10"
+          >
+            <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold mb-4">
+              Why Do You Need Membership?
+            </h2>
+            <p className="text-sm md:text-base lg:text-lg leading-relaxed">
+              Many students struggle to find a trading environment as effective
+              as our trading lounge after completing the course. Membership
+              provides a 1-month extended access to our premium trading lounges,
+              ensuring you continue to learn and grow in a professional setting.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <div className="w-full max-w-[90%] 3xl:max-w-[80%] rounded-[3.2rem] border-2 border-white overflow-hidden">
+              <img
+                src={Img3}
+                alt="img3"
+                loading="lazy"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:ml-10"
+          >
+            <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold mb-4">
+              Who is Eligible?
+            </h2>
+            <p className="text-sm md:text-base lg:text-lg leading-relaxed">
+              Students who have opted for and successfully completed their
+              mentorship program are eligible for membership.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <div className="w-full max-w-[90%] 3xl:max-w-[80%] rounded-[3.2rem] border-2 border-white overflow-hidden">
+              <img
+                src={Img5}
+                alt="img5"
+                loading="lazy"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="main-container-1 w-full md:w-6/12 flex flex-col justify-between">
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card h-[18rem] flex-1 flex flex-col justify-center items-center pt-10 md:pt-24 3xl:pb-40 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <div className="text-white text-5xl 3xl:text-6xl font-semibold text-center">
+              Process
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <div className="w-full max-w-[90%] 3xl:max-w-[80%] rounded-[3.2rem] border-2 border-white overflow-hidden">
+              <img
+                src={Img2}
+                alt="img2"
+                loading="lazy"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold mb-4">
+              How Membership Works?
+            </h2>
+            <p className="text-sm md:text-base lg:text-lg leading-relaxed">
+              Getting further trained under Manish Sir gives students a
+              competitive edge after course completion. This process helps them
+              identify their unique trading style and develop a clear roadmap to
+              achieve success.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <div className="w-full max-w-[90%] 3xl:max-w-[80%] rounded-[3.2rem] border-2 border-white overflow-hidden">
+              <img
+                src={Img4}
+                alt="img4"
+                loading="lazy"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="card flex-1 h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
+          >
+            <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold mb-4">
+              Benefits of Membership Program
+            </h2>
+            <ul className="list-disc list-inside text-sm md:text-base lg:text-lg leading-relaxed space-y-1">
+              <li>Get 1-month extended access to our trading lounge.</li>
+              <li>Receive further guidance from Manish Bimal Sir.</li>
+              <li>Mentors will be available at scheduled times.</li>
+              <li>Psychology sessions.</li>
+              <li>Brainstorming sessions with Manish Sir.</li>
+            </ul>
+          </motion.div>
+        </div>
+      </main> */}
 
       {/* mobile view ///// */}
       <main class=" flex md:hidden w-[80%] mx-auto text-white relative py-8 flex-wrap">
