@@ -18,7 +18,6 @@ const MembershipProgram = () => {
   const [activeSection, setActiveSection] = useState(0);
   const sectionRefs = useRef([]);
 
-  const section1Refs = useRef([]);
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
@@ -91,13 +90,11 @@ const MembershipProgram = () => {
   ];
 
   useEffect(() => {
-    // Initialize refs array
     sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 2;
 
-      // Check which section is currently in view
       sectionRefs.current.forEach((section, index) => {
         if (!section) return;
 
@@ -292,7 +289,6 @@ const MembershipProgram = () => {
       <div className="min-h-screen hidden md:block bg-black text-white p-4">
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Vertical Timeline Line */}
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1">
               <div
                 className="absolute top-0 left-0 w-full transition-all duration-300 ease-in-out"
@@ -321,7 +317,6 @@ const MembershipProgram = () => {
               <div className="h-[400px]"></div>
             </div>
 
-            {/* End Dot */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
           </div>
         </div>
