@@ -215,7 +215,7 @@ const TraderProgram = () => {
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-3xl md:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
@@ -820,7 +820,6 @@ const TraderProgram = () => {
             </p>
           </div>
 
-          {/* video components module 1 */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -830,17 +829,14 @@ const TraderProgram = () => {
           >
             {" "}
             <video
-              // ref={(el) => (videosRef.current[3] = el)}
               controls
               className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-              // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
             >
               <source src={Video1} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>
 
-          {/* module components  chartneeti 2*/}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -851,7 +847,7 @@ const TraderProgram = () => {
             <div
               class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
               style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)", // Background only 10% visible
+                backgroundColor: "rgba(72, 72, 72, 0.2)",
               }}
             >
               <motion.h1
