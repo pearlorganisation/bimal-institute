@@ -19,7 +19,7 @@ const MembershipProgram = () => {
     {
       id: 1,
       title: "Process",
-      content: "",
+      content: "Content to be given",
       image: Img1,
       imageLeft: true,
     },
@@ -343,15 +343,7 @@ const MembershipProgram = () => {
       {/* mobile view ///// */}
       <main class=" flex md:hidden w-[80%] mx-auto text-white relative py-8 flex-wrap">
         {/* <!--left  Sidebar --> */}
-        <div class="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
-          <div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute top-52 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[-1rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[36rem]  xl:bottom-[38rem] 2xl:bottom-[39rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[68rem] xl:bottom-[67rem] 2xl:bottom-[72rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[89rem] xl:bottom-[93rem] 2xl:bottom-[100rem]  right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[13rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-
+        <div class="sidebar-1 w-full h-max md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
           {/* text content module 1 */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}
@@ -361,7 +353,11 @@ const MembershipProgram = () => {
             class="card  h-[18rem] flex-1 flex flex-col justify-center items-center pt-10 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
           >
             <div class="text-white text-5xl 2xl:text-[6rem] font-semibold text-center">
-              Process
+              <h1>{timelineData[0].title}</h1>
+
+              <p className="text-sm md:text-base lg:text-lg 2xl:text-[1.7rem]  leading-relaxed">
+                {timelineData[0].content}
+              </p>
             </div>
           </motion.div>
 
@@ -392,13 +388,10 @@ const MembershipProgram = () => {
             class="card flex-1   h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
           >
             <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-[2.5rem] font-semibold mb-4 2xl:mb-8">
-              Why Do You Need Membership?
+              {timelineData[1].title}
             </h2>
             <p className="text-sm md:text-base lg:text-lg 2xl:text-[1.7rem]  leading-relaxed">
-              Getting further trained under Manish Sir gives students a
-              competitive edge after course completion. This process helps them
-              identify their unique trading style and develop a clear roadmap to
-              achieve success.
+              {timelineData[1].content}
             </p>
           </motion.div>
 
@@ -430,16 +423,10 @@ const MembershipProgram = () => {
             class="card flex-1 h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
           >
             <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-[2.5rem] font-semibold mb-4 2xl:mb-8">
-              How Membership Works ?
+              {timelineData[2].title}
             </h2>
             <p className="text-sm md:text-base lg:text-lg 2xl:text-[1.7rem] leading-relaxed">
-              <ul>
-                · Get 1-month extended access to our trading lounge. <br />·
-                Receive further guidance from Manish Bimal Sir. <br />
-                · Mentors will be available at scheduled times.
-                <br />· Psychology sessions.
-                <br />· Brainstorming sessions with Manish Sir.
-              </ul>
+              {timelineData[2].content}
             </p>
           </motion.div>
 
@@ -473,11 +460,10 @@ const MembershipProgram = () => {
             class="card flex-1 h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
           >
             <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-[2.5rem] font-semibold 2xl:mb-8 mb-4">
-              Who is Eligible?
+              {timelineData[3].title}
             </h2>
             <p className="text-sm md:text-base lg:text-lg 2xl:text-[1.7rem] leading-relaxed">
-              Students who have opted for and successfully completed their
-              mentorship program are eligible for membership.
+              {timelineData[3].content}
             </p>
           </motion.div>
 
@@ -504,19 +490,13 @@ const MembershipProgram = () => {
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1  h-[18rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
+            class="card flex-1  h-[24rem] pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
           >
             <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-[2.5rem] font-semibold mb-4 2xl:mb-8">
-              Benefits of Membership Program
+              {timelineData[4].title}
             </h2>
             <p className="text-sm md:text-base lg:text-lg 2xl:text-[1.7rem] leading-relaxed">
-              <ul>
-                · Get 1-month extended access to our trading lounge. <br />·
-                Receive further guidance from Manish Bimal Sir. <br />
-                · Mentors will be available at scheduled times.
-                <br />· Psychology sessions.
-                <br />· Brainstorming sessions with Manish Sir.
-              </ul>
+              <ul>{timelineData[4].content}</ul>
             </p>
           </motion.div>
 
