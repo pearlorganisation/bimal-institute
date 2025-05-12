@@ -16,6 +16,7 @@ import TrumpEffect from "../src/components/resource/TrumpCard";
 import CoveredEffect from "../src/components/resource/CoverdCall";
 import Test2 from "../src/pages/Test2";
 import ReactiveForm from "./pages/ReativeForm";
+import BlogDetails from "./pages/BlogDetails";
 
 function App() {
   return (
@@ -37,8 +38,8 @@ function App() {
           <Route path="/mentorship-program" element={<MentorshipProgram />} />
           <Route path="/membership-program" element={<MembershipProgram />} />
           <Route path="/inner-circle-program" element={<InnerProgram />} />
-          <Route path="/blog/trump-effect" element={<TrumpEffect />} />
-          <Route path="/blog/covered-call" element={<CoveredEffect />} />
+          <Route path="/blog/:slug" element={<BlogDetails />} />
+
           <Route path="/test" element={<Test2 />} />
         </Routes>
       </BrowserRouter>

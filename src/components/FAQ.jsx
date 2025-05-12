@@ -11,7 +11,7 @@ const FAQ = () => {
     // },
     {
       question: "Does This Course Cover Practical Approach ?",
-      answer: "Yes"
+      answer: "Yes",
     },
     {
       question:
@@ -26,13 +26,14 @@ const FAQ = () => {
     },
     {
       question:
-        "Is there any age or education requirement to enroll in the `Be a Trader` program?",
+        "Is there any age or education requirement to enroll in the `Be A Trader Program 2.0` ?",
       answer:
         "Yes, as per the laws set by the Government of India, only individuals above 16 years of age can enroll. However, there are no specific educational qualifications required to join the program.",
     },
     {
       question: "How Much Capital Is Required?",
-      answer: "same as provided"
+      answer:
+        "We recommend a minimum capital of ₹25,000 to ensure an effective learning experience and to grasp the right trading curve.",
     },
 
     // {

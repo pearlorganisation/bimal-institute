@@ -78,7 +78,7 @@ const Navbar = () => {
                 </span>
               </Link>
               <Link to="/">
-                <span className="text-[0.55rem] sm:text-xs  2.5xl:text-[1.15rem] 2.5xl:mt-1 block">
+                <span className="text-[0.7rem] sm:text-sm  2.5xl:text-[1.3rem] 2.5xl:mt-1 block">
                   BIMAL INSTITUTE FOR MARKET RESEARCH
                 </span>
               </Link>

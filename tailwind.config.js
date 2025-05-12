@@ -11,21 +11,6 @@ module.exports = {
       fontFamily: {
         afacad: ["Afacad", "sans-serif"], // Add Afacad font
       },
-      // animation: {
-      //   stars: "stars 120s linear infinite",
-      //   rotate: "rotate 120s linear infinite",
-      // },
-
-      // keyframes: {
-      //   stars: {
-      //     "0%": { transform: "translateY(0)" },
-      //     "100%": { transform: "translateY(-135rem)" },
-      //   },
-      //   rotate: {
-      //     "0%": { transform: "rotate(360deg)" },
-      //     "100%": { transform: "rotate(0)" },
-      //   },
-      // },
 
       keyframes: {
         gradient_301: {

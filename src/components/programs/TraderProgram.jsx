@@ -8,39 +8,14 @@ import Img4 from "../../assets/mentor14.webp";
 import Img5 from "../../assets/mentor15.webp";
 import TraderTimelineItem from "./TraderTimelineItem";
 
+const Video1 = "/Module1Market pe charcha.mp4";
+const Video2 = "/Module2Chartneeti.mp4";
+const Video3 = "/Module3Smartneeti.mp4";
+const Video4 = "/6.mp4";
+const Video5 = "/5.mp4";
+const Video6 = "/Module6Option Mantra.mp4";
+
 const TraderProgram = () => {
-  const Video1 = "/Module1Market pe charcha.mp4";
-  const Video2 = "/Module2Chartneeti.mp4";
-  const Video3 = "/Module3Smartneeti.mp4";
-  const Video4 = "/Module4Gurugyaan.mp4";
-  const Video5 = "/Module5Trader hai hum.mp4";
-  const Video6 = "/Module6Option Mantra.mp4";
-
-  const [activeSection, setActiveSection] = useState(0);
-  const sectionRefs = useRef([]);
-
-  const [scrollPercentage, setScrollPercentage] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      const scrolled = (scrollTop / docHeight) * 100;
-      setScrollPercentage(Math.min(100, Math.max(0, scrolled)));
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Quicksand:wght@681&family=League+Spartan:wght@400;500;600;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-  }, []);
-
   const timelineData = [
     {
       id: 1,
@@ -63,7 +38,7 @@ const TraderProgram = () => {
             <li> i. OHLC </li>
           </ul>
           <li>
-            Calculations for Intraday/Margin/Delivery Trading Live Market
+            Calculations for Intraday /Margin /Delivery Trading Live Market
             Tracking
           </li>
           <li>
@@ -122,22 +97,6 @@ const TraderProgram = () => {
     {
       id: 4,
       title: "Module-4",
-      hindiTitle: "गुरुज्ञान",
-      subTitle: "Guru Gyan",
-      video: Video4,
-      content: (
-        <ul className="list-disc pl-5 space-y-2">
-          <li>Intraday Strategies by Manish Bimal</li>
-          <li>Risk Management</li>
-          <li>Intraday Trading Psychology</li>
-        </ul>
-      ),
-      image: Img4,
-      imageLeft: true,
-    },
-    {
-      id: 5,
-      title: "Module-5",
       hindiTitle: "ट्रेडर हैं हम",
       video: Video5,
       subTitle: "Trader Hai Hum",
@@ -152,8 +111,25 @@ const TraderProgram = () => {
         </ul>
       ),
       image: Img5,
+      imageLeft: true,
+    },
+    {
+      id: 5,
+      title: "Module-5",
+      hindiTitle: "गुरुज्ञान",
+      subTitle: "Guru Gyan",
+      video: Video4,
+      content: (
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Intraday Strategies by Manish Bimal</li>
+          <li>Risk Management</li>
+          <li>Intraday Trading Psychology</li>
+        </ul>
+      ),
+      image: Img4,
       imageLeft: false,
     },
+
     {
       id: 6,
       title: "Module-6",
@@ -178,6 +154,71 @@ const TraderProgram = () => {
       imageLeft: true,
     },
   ];
+  const [activeSection, setActiveSection] = useState(0);
+  const sectionRefs = useRef([]);
+
+  const timelineContainerRef = useRef(null);
+
+  const [scrollPercentage, setScrollPercentage] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!timelineContainerRef.current) return;
+
+      const timelineTop = timelineContainerRef.current.offsetTop;
+      const timelineHeight = timelineContainerRef.current.offsetHeight;
+      const scrollY = window.scrollY + window.innerHeight / 2;
+
+      const relativeScroll = scrollY - timelineTop;
+      const percentage = (relativeScroll / timelineHeight) * 100;
+
+      setScrollPercentage(Math.min(100, Math.max(0, percentage)));
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+      sectionRefs.current.forEach((section, index) => {
+        if (!section) return;
+
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          setActiveSection(index);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
+  }, [timelineData.length]);
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Quicksand:wght@681&family=League+Spartan:wght@400;500;600;700&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
@@ -225,536 +266,53 @@ const TraderProgram = () => {
       </div>
 
       {/* SHUBHAM CODE*/}
-      <div className="min-h-screen hidden md:block  text-white p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1">
-              <div
-                className="absolute top-0 left-0 w-full transition-all duration-300 ease-in-out"
-                style={{
-                  height: `${scrollPercentage}%`,
-                  background: `linear-gradient(to bottom, green ${scrollPercentage}%)`,
-                }}
-              ></div>
-            </div>
 
+      <div className="min-h-screen hidden md:block text-white p-4">
+        <div className="max-w-4xl mx-auto relative" ref={timelineContainerRef}>
+          {/* Timeline Line */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-700">
+            {/* Scroll-based Fill */}
             <div
-              className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"
-              style={{ top: 0 }}
+              className="absolute top-0 left-0 w-full transition-all duration-300 ease-in-out"
+              // style={{
+              //   height: `${scrollPercentage}%`,
+              //   background: `linear-gradient(to bottom, blue ${scrollPercentage}%)`,
+              // }}
+              style={{
+                height: `${scrollPercentage}%`,
+                background: `linear-gradient(to bottom, #0980FF ${scrollPercentage}%)`,
+              }}
             ></div>
-
-            <div className="relative z-10">
-              <div className="h-[100px]"></div>
-              {timelineData.map((item, index) => (
-                <TraderTimelineItem
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  sectionRefs={sectionRefs}
-                />
-              ))}
-              <div className="h-[200px]"></div>
-            </div>
-
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
           </div>
+
+          {/* Top Circular Marker */}
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
+
+          {/* Timeline Items */}
+          <div className="relative z-10">
+            <div className="h-[50px]"></div>
+            {timelineData.map((item, index) => (
+              <TraderTimelineItem
+                key={item.id}
+                item={item}
+                index={index}
+                sectionRefs={sectionRefs}
+              />
+            ))}
+            {/* <div className="h-[200px]"></div> */}
+          </div>
+
+          {/* Bottom Circular Marker */}
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
         </div>
       </div>
 
-      {/* /////////destop view------ */}
-      {/* <main class="hidden sm:flex  text-white relative pt-8 pb-8 3xl:py-20  sm:py-16 flex-wrap">
-        <div class="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
-          <div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[-1rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3   h-[182px] md:h-[230px] lg:h-[215px]  "
-              style={{
-                fontFamily: "'Quicksand', sans-serif",
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.2rem]  font-semibold opacity-40"
-              >
-                Module-1
-              </motion.h1>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.2rem] font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                मार्केट पे चर्चा
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[1.9rem]  font-medium opacity-25  text-gray-300 pt-3   "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Market pe Charcha
-              </motion.h2>
-            </div>
-            <motion.p
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              class=" pt-2 text-justify text-sm md:text-base lg:text-base 2xl:text-lg leading-relaxed font-Afacad text-gray-300"
-            >
-              Understanding Basic Terminologies <br /> a. Bid Ask
-              <br /> b. Volume <br /> c. Quantity <br />
-              d. Turnover <br />
-              e. Intraday Vs Delivery <br />
-              f. Stop Loss
-              <br /> g. Bull Vs Bear <br />
-              h. Circuits <br />
-              i. OHLC
-              <br />
-              Calculations for Intraday/Margin/Delivery Trading Live Market
-              Tracking Introductions to Futures & Its Calculations (Equity /
-              Commodity) Introduction to Crypto & Forex
-            </motion.p>
-          </div>
-
-          <div class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24 ">
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] xl:h-[60%] 2xl:h-[61%] 2.5xl:h-[75%] 3xl:h-[80%]"
-            >
-              <source src={Video2} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-24 xl:pt-9 pb-5 md:pb-24  px-5 md:px-10 3xl:px-24">
-            <div
-              class=" rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                fontFamily: "'Quicksand', sans-serif",
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.2rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Module-3
-              </motion.h1>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.2rem] font-semibold  pt-3 "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                स्मार्टनीति
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[1.9rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Smartneeti
-              </motion.h2>
-            </div>
-            <motion.ul
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="pt-2 text-sm md:text-base lg:text-base 2xl:text-lg  font-Afacad list-disc list-inside text-gray-300"
-            >
-              <li>Time Frame Selection Using TWR</li>
-              <li>Ripple Effect : Retailers VS Smart Retailers VS FII/DII</li>
-              <li>How to Deal With Breakouts</li>
-              <li>Break Of Structure & Change Of Character</li>
-              <li>Order Blocks (Demand & Supply Zones)</li>
-              <li> Point Of Interest & Imbalances </li>
-              <li>Fair Value Gaps & Liquidity Sweeps </li>
-              <li> Understanding Price Action </li>
-              <li> Trend line With Smoothing </li>
-              <li> Creating Bhramastra (SMC + Price Action) </li>
-            </motion.ul>
-          </div>
-
-          <div class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] xl:h-[60%] 2xl:h-[61%] 2.5xl:h-[75%]  3xl:h-[80%]"
-            >
-              <source src={Video4} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.2rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Module-5
-              </motion.h1>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.2rem]   font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                ट्रेडर हैं हम{" "}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[1.9rem]   font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Trader Hai Hum{" "}
-              </motion.h2>
-            </div>
-            <motion.ul
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="pt-2 text-sm md:text-base lg:text-base 2xl:text-lg  font-Afacad list-disc list-inside text-gray-300"
-            >
-              <li>Swing Strategies By Manish Bimal</li>
-              <li> Fundamental Analysis </li>
-              <li>Artificial Intelligence</li>
-              <li>Portfolio Creation & Management</li>
-              <li>Sector Rotation & Theme Based Trading</li>
-              <li> Smart Screeners</li>
-            </motion.ul>
-            <p></p>
-            <br />
-          </div>
-
-          <div class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] xl:h-[60%] 2.5xl:h-[75%]   2xl:h-[61%] 3xl:h-[80%]"
-            >
-              <source src={Video6} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-
-        <div class="main-container-1 w-full md:w-6/12 flex flex-col">
-          <div class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-            >
-              <source src={Video1} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-[28rem]  xl:pt-[22rem] 2xl:pt-[23rem] 2.5xl:pt-[14.5rem] 3xl:pt-[14rem] pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.2rem]   font-semibold opacity-40"
-              >
-                Module-2
-              </motion.h1>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.2rem]  font-semibold  pt-3 "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                चार्टनीति
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[1.9rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Chartneeti
-              </motion.h2>
-            </div>
-            <motion.ul
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="pt-2 text-sm md:text-base lg:text-base 2xl:text-lg  font-Afacad list-disc list-inside text-gray-300"
-            >
-              <li>Charts & Trends</li>
-              <li>Support & Resistance</li>
-              <li>Decoding Candlesticks</li>
-              <li>Chart Patterns</li>
-              <li>Indicators</li>
-            </motion.ul>
-            <p></p>
-            <br />
-            <p></p>
-            <p></p>
-            <br />
-            <p></p>
-            <p></p>
-            <br />
-            <p></p>
-          </div>
-
-          <div class="card flex-1 pt-5 md:pt-40 xl:pt-32 2xl:pt-36 2.5xl:pt-36 pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-            >
-              <source src={Video3} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-40 xl:pt-[18rem] 2xl:pt-[17rem]  2.5xl:pt-[15rem] pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.2rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Module-4
-              </motion.h1>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.2rem]  font-semibold  pt-3 "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                गुरुज्ञान
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[1.9rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Guru Gyan{" "}
-              </motion.h2>
-            </div>
-            <motion.ul
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="pt-2 text-sm md:text-base lg:text-base 2xl:text-lg  font-Afacad list-disc text-gray-300 list-inside"
-            >
-              <li> Intraday Strategies by Manish Bimal</li>
-              <li>Risk Management</li>
-              <li>Intraday Trading Psychology</li>
-            </motion.ul>
-            <p></p>
-            <br />
-            <p></p>
-            <p></p>
-            <br />
-            <p></p>
-            <p></p>
-            <br />
-            <p></p>
-          </div>
-
-          <div class="card flex-1 pt-5 md:pt-40 xl:pt-[15rem] 2.5xl:pt-[17rem] pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-            >
-              <source src={Video5} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-40 xl:pt-[18rem] 2.5xl:pt-[15rem] pb-5 md:pb-24 px-5 md:px-10 3xl:px-24">
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.2rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Module-6
-              </motion.h1>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.2rem]  font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                ऑप्शन मंत्र
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[1.9rem]   font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                Option Mantra{" "}
-              </motion.h2>
-            </div>
-            <motion.ul
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="pt-2 text-sm md:text-base lg:text-base 2xl:text-lg font-Afacad list-disc list-inside text-gray-300"
-            >
-              <li> Option Chain Analysis</li>
-              <li>OI Built Up Analysis</li>
-              <li> Max Pain Analysis</li>
-              <li>India Vix & Implied Volatility Analysis</li>
-              <li> Option Greeks</li>
-              <li>Tracking FII / DII Derivative Statistics</li>
-              <li> Option Buyer VS Option Writer</li>
-              <li> Margin Reduction Using Hedging</li>
-              <li> Role of India VIX & Implied Volatility While Writing</li>
-              <li>Iron Condor Strategy & Its Adjustments</li>
-              <li> YNJ Strategy (Spread)</li>
-            </motion.ul>
-          </div>
-        </div>
-      </main> */}
-
       {/* ////monbile view----------------------- ////monbile */}
       <main class="flex sm:hidden  text-white relative pt-8 pb-8  sm:py-16 flex-wrap">
-        {/* <!--left  Sidebar --> */}
         <div class="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
           <div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
           <div class="absolute bottom-[-1rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          {/* module components */}
+
           <div class="card flex-1 flex flex-col  pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
@@ -774,7 +332,7 @@ const TraderProgram = () => {
                 transition={{ duration: 0.7, ease: "easeOut" }}
                 class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
               >
-                Module-1
+                {timelineData[0].title}
               </motion.h1>
               {/* Hindi Ti
               tle */}
@@ -791,7 +349,7 @@ const TraderProgram = () => {
                   opacity: 1,
                 }}
               >
-                मार्केट पे चर्चा
+                {timelineData[0].hindiTitle}
               </motion.h2>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
@@ -803,20 +361,11 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Market pe Charcha
+                {timelineData[0].subTitle}
               </motion.h2>
             </motion.div>
-            <p class=" pt-2 text-justify text-sm md:text-base lg:text-lg font-Afacad">
-              Understanding Basic Terminologies <br /> a. Bid Ask
-              <br /> b. Volume <br /> c. Quantity <br />
-              d. Turnover <br />
-              e. Intraday Vs Delivery <br />
-              f. Stop Loss
-              <br /> g. Bull Vs Bear <br />
-              h. Circuits <br />
-              i. OHLC Calculations for Intraday/Margin/Delivery Trading Live
-              Market Tracking Introductions to Futures & Its Calculations
-              (Equity / Commodity) Introduction to Crypto & Forex
+            <p class=" pt-2  text-sm md:text-base lg:text-lg font-Afacad">
+              {timelineData[0].content}
             </p>
           </div>
 
@@ -832,7 +381,7 @@ const TraderProgram = () => {
               controls
               className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
             >
-              <source src={Video1} type="video/mp4" />
+              <source src={timelineData[0].video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>
@@ -857,7 +406,7 @@ const TraderProgram = () => {
                 transition={{ duration: 0.7, ease: "easeOut" }}
                 class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
               >
-                Module-2
+                {timelineData[1].title}
               </motion.h1>
               {/* Hindi Title */}
               <motion.h2
@@ -873,7 +422,7 @@ const TraderProgram = () => {
                   opacity: 1,
                 }}
               >
-                चार्टनीति
+                {timelineData[1].hindiTitle}
               </motion.h2>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
@@ -885,15 +434,11 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Chartneeti
+                {timelineData[1].subTitle}
               </motion.h2>
             </div>
             <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              <li>Charts & Trends</li>
-              <li>Support & Resistance</li>
-              <li>Decoding Candlesticks</li>
-              <li>Chart Patterns</li>
-              <li>Indicators</li>
+              {timelineData[1].content}
             </ul>
           </motion.div>
 
@@ -912,7 +457,7 @@ const TraderProgram = () => {
               className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] "
               // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
             >
-              <source src={Video2} type="video/mp4" />
+              <source src={timelineData[1].video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>
@@ -942,7 +487,7 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Module-3
+                {timelineData[2].title}
               </motion.h1>
               {/* Hindi Title */}
               <motion.h2
@@ -958,7 +503,7 @@ const TraderProgram = () => {
                   opacity: 1,
                 }}
               >
-                स्मार्टनीति
+                {timelineData[2].hindiTitle}
               </motion.h2>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
@@ -970,20 +515,11 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Smartneeti
+                {timelineData[2].subTitle}
               </motion.h2>
             </div>
             <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              <li>Time Frame Selection Using TWR</li>
-              <li>Ripple Effect : Retailers VS Smart Retailers VS FII/DII</li>
-              <li>How to Deal With Breakouts</li>
-              <li>Break Of Structure & Change Of Character</li>
-              <li>Order Blocks (Demand & Supply Zones)</li>
-              <li> Point Of Interest & Imbalances </li>
-              <li>Fair Value Gaps & Liquidity Sweeps </li>
-              <li> Understanding Price Action </li>
-              <li> Trend line With Smoothing </li>
-              <li> Creating Bhramastra (SMC + Price Action) </li>
+              {timelineData[2].content}
             </ul>
           </motion.div>
 
@@ -1002,7 +538,7 @@ const TraderProgram = () => {
               className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
               // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
             >
-              <source src={Video3} type="video/mp4" />
+              <source src={timelineData[2].video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>
@@ -1034,7 +570,7 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Module-4
+                {timelineData[3].title}
               </motion.h1>
               {/* Hindi Title */}
               <motion.h2
@@ -1050,7 +586,7 @@ const TraderProgram = () => {
                   opacity: 1,
                 }}
               >
-                गुरुज्ञान
+                {timelineData[3].hindiTitle}
               </motion.h2>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
@@ -1062,13 +598,11 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Guru Gyan{" "}
+                {timelineData[3].subTitle}
               </motion.h2>
             </div>
             <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              <li> Intraday Strategies by Manish Bimal</li>
-              <li>Risk Management</li>
-              <li>Intraday Trading Psychology</li>
+              {timelineData[3].content}
             </ul>
           </div>
 
@@ -1087,7 +621,7 @@ const TraderProgram = () => {
               className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] "
               // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
             >
-              <source src={Video4} type="video/mp4" />
+              <source src={timelineData[3].video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>
@@ -1116,7 +650,7 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Module-5
+                {timelineData[4].title}
               </motion.h1>
               {/* Hindi Title */}
               <motion.h2
@@ -1132,7 +666,7 @@ const TraderProgram = () => {
                   opacity: 1,
                 }}
               >
-                ट्रेडर हैं हम{" "}
+                {timelineData[4].hindiTitle}
               </motion.h2>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
@@ -1144,16 +678,11 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Trader Hai Hum{" "}
+                {timelineData[4].subTitle}
               </motion.h2>
             </div>
             <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              <li>Swing Strategies By Manish Bimal</li>
-              <li> Fundamental Analysis </li>
-              <li>Artificial Intelligence</li>
-              <li>Portfolio Creation & Management</li>
-              <li>Sector Rotation & Theme Based Trading</li>
-              <li> Smart Screeners</li>
+              {timelineData[4].content}
             </ul>
           </motion.div>
 
@@ -1172,7 +701,7 @@ const TraderProgram = () => {
               className="w-full md:w-full rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
               // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
             >
-              <source src={Video5} type="video/mp4" />
+              <source src={timelineData[4].video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>
@@ -1201,7 +730,8 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Module-6
+                {}
+                {timelineData[5].title}
               </motion.h1>
               {/* Hindi Title */}
               <motion.h2
@@ -1217,7 +747,7 @@ const TraderProgram = () => {
                   opacity: 1,
                 }}
               >
-                ऑप्शन मंत्र
+                {timelineData[5].hindiTitle}
               </motion.h2>
               <motion.h2
                 initial={{ opacity: 0, y: 50 }}
@@ -1229,21 +759,11 @@ const TraderProgram = () => {
                   fontFamily: "'Quicksand', sans-serif",
                 }}
               >
-                Option Mantra{" "}
+                {timelineData[5].subTitle}
               </motion.h2>
             </div>
             <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              <li> Option Chain Analysis</li>
-              <li>OI Built Up Analysis</li>
-              <li> Max Pain Analysis</li>
-              <li>India Vix & Implied Volatility Analysis</li>
-              <li> Option Greeks</li>
-              <li>Tracking FII / DII Derivative Statistics</li>
-              <li> Option Buyer VS Option Writer</li>
-              <li> Margin Reduction Using Hedging</li>
-              <li> Role of India VIX & Implied Volatility While Writing</li>
-              <li>Iron Condor Strategy & Its Adjustments</li>
-              <li> YNJ Strategy (Spread)</li>
+              {timelineData[5].content}
             </ul>
           </motion.div>
 
@@ -1255,14 +775,12 @@ const TraderProgram = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
           >
-            {" "}
             <video
               // ref={(el) => (videosRef.current[2] = el)}
               controls
               className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] "
-              // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
             >
-              <source src={Video6} type="video/mp4" />
+              <source src={timelineData[5].video} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </motion.div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import StockCard from "../components/resource/StockCard";
 import Navbar from "./Navbar";
 import StillQue from "../components/StillQue";
@@ -7,7 +7,37 @@ import Footer from "../components/Footer";
 import FixedSidebarButtons from "./FixedSidebarButtons";
 import { motion } from "framer-motion";
 
+import axios from "axios";
+import { useEffect } from "react";
+
 function Resource() {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("http://localhost:8000/api/v1/blogs");
+        if (res.data.success) {
+          setBlogs(res.data.data);
+        } else {
+          setError("Failed to fetch blogs");
+        }
+      } catch (err) {
+        setError("Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  console.log(blogs, "Nlogs Data");
+
+  if (loading) return <div className="spinner" />;
   return (
     <>
       <Navbar />
@@ -25,7 +55,23 @@ function Resource() {
         </motion.h2>
       </div>
 
-      <StockCard />
+      {/* <div className="blog-list">
+        {blogs.map((blog) => (
+          <div key={blog._id} className="blog-card">
+            <img
+              src={blog.thumbImage.secure_url}
+              alt={blog.title}
+              style={{ width: "100%", height: "auto" }}
+            />
+            <h2>{blog.title}</h2>
+
+            <p>
+              <strong>By:</strong> {blog.author.name}
+            </p>
+          </div>
+        ))}
+      </div> */}
+      <StockCard blogs={blogs} />
       <ContactUsForm />
       <Footer />
     </>

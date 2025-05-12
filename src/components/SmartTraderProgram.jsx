@@ -68,9 +68,8 @@ const SmartTraderProgram = () => {
           className="bg-gray-800 bg-opacity-50 text-gray-300 p-1 rounded-lg border-l-4 border-yellow-400 shadow-md flex items-center max-w-full md:max-w-[75%]"
           style={{ fontFamily: "'League Spartan', sans-serif" }}
         >
-          
           <img src="/stars.webp" alt="" className="h-6 w-6 " />
-          <p className="pl-2 uppercase text-white 2xl:text-lg">
+          <p className="pl-2 pt-[3px] capitalize text-white 2xl:text-[20px]">
             Available in offline and online mode
           </p>
         </motion.div>

@@ -8,15 +8,12 @@ import mentor14 from "../assets/mentor14.webp";
 import mentor15 from "../assets/mentor15.webp";
 
 export const formImages = [
-  { path: mtw4 },
+  // { path: mtw4 },
   { path: mtw2 },
-  { path: mtw3 },
+  // { path: mtw3 },
   { path: mtw1 },
   { path: mentor12 },
   { path: mentor13 },
   { path: mentor14 },
   { path: mentor15 },
 ];
-
-
-console.log(mtw4, "mtw 4")
