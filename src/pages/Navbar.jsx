@@ -73,7 +73,7 @@ const Navbar = () => {
             {/* Institute Name */}
             <div className="flex flex-col items-start text-left leading-tight">
               <Link to="/">
-                <span className="text-[0.7rem] sm:text-sm 2.5xl:text-[1.3rem] block">
+                <span className="text-[0.8rem]  tracking-widest sm:text-base 2.5xl:text-[1.3rem] block">
                   बिमल इंस्टीट्यूट फॉर मार्केट रिसर्च
                 </span>
               </Link>

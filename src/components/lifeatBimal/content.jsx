@@ -347,6 +347,7 @@ const GalleryImage = ({ src }) => {
           src={src}
           alt="Gallery"
           onLoad={() => setLoaded(true)}
+          loading="lazy"
           className={`w-full h-60 object-cover cursor-pointer transition-opacity duration-700 ease-in-out ${
             loaded
               ? "opacity-100 blur-0"
@@ -407,6 +408,7 @@ const Gallery = () => {
             <img
               src={selectedImage}
               alt="Enlarged"
+              loading="lazy"
               className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
             />
           </div>

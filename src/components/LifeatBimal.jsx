@@ -1,95 +1,3 @@
-// import React, { useEffect, useRef, useState } from "react";
-// import { motion, useAnimation } from "framer-motion";
-// import Bi1 from "../assets/BI-1.png";
-// import Bi2 from "../assets/BI-2.jpg";
-// import Bi3 from "../assets/BI-3.jpg";
-// import Bi4 from "../assets/BI-6.jpg";
-// import Bi5 from "../assets/BI-7.jpg";
-// import Bi6 from "../assets/BI-8jpg.jpg";
-// import Bi7 from "../assets/BI-9.jpg";
-// import Bi8 from "../assets/BI-10.jpg";
-
-// const images = [Bi8, Bi2, Bi3, Bi4, Bi5, Bi6, Bi7, Bi1];
-
-// const LifeAtBimalInstitute = () => {
-//   const [scrollDir, setScrollDir] = useState(1); // 1 = down (left to right), -1 = up
-//   const lastScrollY = useRef(0);
-//   const marqueeRef = useRef(null);
-//   const controls = useAnimation();
-
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       const currentY = window.scrollY;
-
-//       if (currentY > lastScrollY.current) {
-//         setScrollDir(1); // scrolling down
-//       } else {
-//         setScrollDir(-1); // scrolling up
-//       }
-
-//       lastScrollY.current = currentY;
-//     };
-
-//     window.addEventListener("scroll", handleScroll);
-//     return () => window.removeEventListener("scroll", handleScroll);
-//   }, []);
-
-//   // Animation loop using Framer Motion
-//   useEffect(() => {
-//     controls.start({
-//       x: [0, scrollDir * -1000], // move left/right
-//       transition: {
-//         x: {
-//           repeat: Infinity,
-//           repeatType: "loop",
-//           ease: "linear",
-//           duration: 20,
-//         },
-//       },
-//     });
-//   }, [scrollDir]);
-
-//   return (
-//     <div className="py-16 w-[80%] 3xl:w-[75%] mx-auto overflow-hidden">
-//       {/* Title */}
-//       <div className="text-center pb-4 xl:pb-6">
-//         <div className="flex justify-center items-center text-left">
-//           <h2 className="text-5xl lg:text-6xl 2xl:text-[5.3rem] font-bold bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text font-spartan">
-//             LIFE
-//           </h2>
-//           <p className="text-gray-300 text-left text-sm md:text-lg 2xl:text-[1.6rem] mt-[0.5rem] xl:mt-[1.1rem] 2xl:mt-[1.5rem] pl-3 font-medium xl:font-semibold tracking-widest font-merriweather">
-//             at Bimal Institute
-//           </p>
-//         </div>
-//       </div>
-
-//       {/* Custom Marquee */}
-//       <div className="relative w-full h-[400px] overflow-hidden">
-//         <motion.div
-//           className="flex gap-6 absolute top-0 left-0"
-//           animate={controls}
-//           ref={marqueeRef}
-//         >
-//           {[...images, ...images].map((img, index) => (
-//             <div
-//               key={index}
-//               className="w-[270px] h-[400px] xl:h-[420px] xl:w-[300px] 2xl:h-[480px] 2xl:w-[320px] rounded-xl overflow-hidden flex-shrink-0"
-//             >
-//               <img
-//                 src={img}
-//                 alt={`Event ${index + 1}`}
-//                 loading="lazy"
-//                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-//               />
-//             </div>
-//           ))}
-//         </motion.div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LifeAtBimalInstitute;
 
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
@@ -164,7 +72,7 @@ const LifeAtBimalInstitute = () => {
           speed={50}
           direction={direction}
           gradient={false}
-          pauseOnHover
+          // pauseOnHover
           autoFill
         >
           <div className="flex space-x-6 px-6 py-20">

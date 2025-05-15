@@ -39,6 +39,24 @@ const Content = () => {
           </motion.h2>
         </div>
       </div>
+
+          <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="sm:w-[100%] max-w-3xl mx-auto mt-6 mb-8"
+        >
+          <video
+            src="/bright-white-neon-sound-waves-seamless-motion-rad-2024-09-10-01-35-05-utc.mp4"
+            controls
+            className="w-full rounded-lg shadow-lg"
+            poster="/video-thumbnail.jpg"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
+
       <div className="text-center max-w-3xl">
         <motion.p
           initial={{ opacity: 0, y: 50 }}
