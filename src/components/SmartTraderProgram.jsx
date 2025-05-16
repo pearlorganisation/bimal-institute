@@ -31,7 +31,7 @@ const SmartTraderProgram = () => {
             Be A
           </span>{" "}
           <br />
-          <span className="bg-gradient-to-r from-[#0940E6] to-[#3195FF] text-transparent bg-clip-text  font-bold">
+          <span className="bg-gradient-to-r from-[#4da3ff] via-[#298df7] to-[#007afb] text-transparent bg-clip-text">
             Trader
           </span>{" "}
           <br />

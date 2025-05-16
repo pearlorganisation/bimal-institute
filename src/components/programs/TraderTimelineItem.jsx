@@ -29,11 +29,11 @@ const TraderTimelineItem = ({ item, index, sectionRefs }) => {
       ref={(el) => (sectionRefs.current[index] = el)}
       className="flex items-start gap-6 min-h-[300px] py-16 relative"
     >
-      <div className="absolute top-18 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-20" />
+      <div className="absolute md:top-40 2xl:top-44 left-1/2 w-4 h-4 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-20" />
       {/* Left Section */}
       <motion.div
         ref={ref}
-        className={`w-1/2 flex flex-col justify-start ${
+        className={`w-2/3 flex flex-col justify-start ${
           item.imageLeft ? "pr-12" : "text-left pr-12"
         }`}
         initial="hidden"
@@ -109,7 +109,7 @@ const TraderTimelineItem = ({ item, index, sectionRefs }) => {
 
       {/* Right Section */}
       <motion.div
-        className={`w-1/2 flex flex-col justify-start ${
+        className={`w-2/3 flex flex-col justify-start ${
           item.imageLeft ? "pl-6" : "pl-6"
         }`}
         initial="hidden"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Person from "../assets/char-home2.png";
+import ManishSitting from "../assets/manish-sitting.png";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -103,7 +103,7 @@ const HomePage = () => {
             className="rounded-xl overflow-hidden h-full flex items-center justify-center"
           >
             <img
-              src={Person}
+              src={ManishSitting}
               alt="Manish Bimal"
               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
             />

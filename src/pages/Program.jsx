@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 import ProgramDesign from "../components/programs/ProgramDesign";
 import Enquiry from "../components/programs/Enquiry";
-import Download from "../components/programs/Download";
+// import Download from "../components/programs/Download";
 import StudentReviews from "../components/programs/StudentReview";
-import StillQue from "../components/StillQue";
+// import StillQue from "../components/StillQue";
 import ContactUsForm from "../components/ContactUsForm";
 import Footer from "../components/Footer";
 import TraderProgram from "../components/programs/TraderProgram";

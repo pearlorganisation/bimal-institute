@@ -19,7 +19,7 @@ function Resource() {
     const fetchBlogs = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/blogs");
+        const res = await axios.get(`${process.env.API_URL}/blogs`);
         if (res.data.success) {
           setBlogs(res.data.data);
         } else {

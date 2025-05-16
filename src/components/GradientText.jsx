@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import imagecomp from "../assets/widthHome2.png";
-import imagecomp1 from "../assets/width1.png";
+import React, {useEffect} from "react";
+import ManishOnStage from "../assets/manish-on-stage.png"
 import CountUp from "react-countup";
 import "./scadit.css";
 import { motion } from "framer-motion";
@@ -45,7 +44,7 @@ const GradientText = () => {
 
       <div className="image-part my-4 ">
         <img
-          src={imagecomp1}
+          src={ManishOnStage}
           className="grayscale hover:grayscale-0"
           alt="Community graphic"
           style={{

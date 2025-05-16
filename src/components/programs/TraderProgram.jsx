@@ -308,7 +308,7 @@ const TraderProgram = () => {
       </div>
 
       {/* ////monbile view----------------------- ////monbile */}
-      <main class="flex sm:hidden  text-white relative pt-8 pb-8  sm:py-16 flex-wrap">
+      <main class="flex md:hidden  text-white relative pt-8 pb-8  sm:py-16 flex-wrap">
         <div class="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
           <div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
           <div class="absolute bottom-[-1rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>

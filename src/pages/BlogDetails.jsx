@@ -32,7 +32,7 @@ const BlogDetails = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/v1/blogs/${slug}`
+          `${process.env.API_URL}/blogs/${slug}`
         );
         if (res.data.success) {
           setBlogs(res.data.data);
