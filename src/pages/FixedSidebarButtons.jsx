@@ -180,7 +180,8 @@ const FixedSidebarButtons = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300"
+                  // className="bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-2 sm:px-6 py-2   rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300 transition duration-300"
+                  className="inline-block cursor-pointer text-white px-8 py-2 text-xl rounded-xl font-[Dancing Script] tracking-widest bg-gradient-to-r from-[#3195FF] to-[#0980FF] font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300"
                 >
                   Submit
                 </button>

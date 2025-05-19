@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { formImages } from "../utils/data";
 
-const ExpertPopup = () => {
-  const [showPopup, setShowPopup] = useState(false);
+const ExpertPopup = ({showPopup, setShowPopup}) => {
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [city, setCity] = useState("");
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowPopup(true), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setShowPopup(true), 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,21 +65,21 @@ const ExpertPopup = () => {
         </button>
 
         {/* Left Side - Images */}
-        <div className="hidden md:block md:w-[55%] overflow-hidden p-4">
-          <div className="flex flex-wrap gap-2">
+        <div className="hidden md:flex md:flex-col md:justify-center md:w-[60%] overflow-hidden p-4">
+          <div className="grid grid-cols-2 gap-3">
             {formImages?.map((item, index) => (
               <img
                 key={index}
                 src={item?.path}
                 alt=""
-                className="w-full max-w-[160px] h-full object-contain mt-8"
+                className="w-full  h-full object-contain"
               />
             ))}
           </div>
         </div>
 
         {/* Right Side - Form */}
-        <div className="w-full md:w-[45%] p-4 sm:p-6 md:p-8 space-y-4 text-black">
+        <div className="w-full md:w-[40%] p-4 sm:p-6 md:p-8 space-y-4 text-black">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             Connect with our Expert
           </h2>
@@ -130,7 +130,8 @@ const ExpertPopup = () => {
             <div className="w-full">
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-4 py-3 rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300"
+                // className="w-full bg-gradient-to-r from-[#0980FF] to-[#292929] text-xl px-4 py-3 rounded-md text-white font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300 transition duration-300"
+                className="w-full inline-block cursor-pointer text-white px-8 py-2 text-xl rounded-xl font-[Dancing Script] tracking-widest bg-gradient-to-r from-[#3195FF] to-[#0980FF] font-semibold hover:text-[#0980FF] hover:bg-gradient-to-r hover:from-[#eff3f7] hover:to-[#eceff3] hover:border-[#292929] transition duration-300"
               >
                 Submit
               </button>

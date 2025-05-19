@@ -18,8 +18,8 @@ const MembershipProgram = () => {
   const timelineData = [
     {
       id: 1,
-      title: "Process",
-      content: "Content to be given",
+      title: "What is the Membership Program?",
+      content: "The Membership Program is an exclusive offering designed to further enhance your chart reading capabilities under the guidance of Manish Sir. Enrolled members gain access to exclusive sessions conducted by him.",
       image: Img1,
       imageLeft: true,
     },
@@ -245,7 +245,7 @@ const MembershipProgram = () => {
       <FixedSidebarButtons />
       {/* heading */}
       <div className=" py-6 md:pt-36 mb:pb-6">
-        <motion.h2
+        <motion.h1
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.2 }}
@@ -254,18 +254,18 @@ const MembershipProgram = () => {
           style={{ fontFamily: "'League Spartan', sans-serif" }}
         >
           Membership Program
-        </motion.h2>
+        </motion.h1>
       </div>
 
       {/* SHUBHAM CODE*/}
-      <div className=" hidden md:flex items-center justify-center min-h-screen ">
+      <div className=" hidden md:flex items-center justify-center mt-20 mb-[300px] ">
         <motion.div
           className="relative text-center w-[80%] cursor-pointer"
           whileHover="hover"
           initial="initial"
         >
           {/* LEARNING Text */}
-          <motion.h1
+          <motion.h2
             variants={{
               initial: { opacity: 1 },
               hover: { opacity: 0.4 },
@@ -275,7 +275,7 @@ const MembershipProgram = () => {
             style={{ fontFamily: "'Quicksand', sans-serif" }}
           >
             LEARNING
-          </motion.h1>
+          </motion.h2>
 
           {/* Strike-through line */}
           <motion.span
@@ -285,11 +285,11 @@ const MembershipProgram = () => {
             }}
             transition={{ duration: 0.4 }}
             className="absolute top-1/2 left-[200px] h-[4px] sm:h-[10px] w-[70%] bg-white"
-            // style={{ transform: "translate(-50%, -50%)" }}
+          // style={{ transform: "translate(-50%, -50%)" }}
           />
 
           {/* EARNING Text */}
-          <motion.h1
+          <motion.h2
             variants={{
               initial: { opacity: 0, y: 20 },
               hover: { opacity: 1, y: 0 },
@@ -301,7 +301,7 @@ const MembershipProgram = () => {
             }}
           >
             EARNING
-          </motion.h1>
+          </motion.h2>
         </motion.div>
       </div>
 
@@ -353,7 +353,7 @@ const MembershipProgram = () => {
             class="card  h-[18rem] flex-1 flex flex-col justify-center items-center pt-10 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
           >
             <div class="text-white text-5xl 2xl:text-[6rem] font-semibold text-center">
-              <h1>{timelineData[0].title}</h1>
+              <p>{timelineData[0].title}</p>
 
               <p className="text-sm md:text-base lg:text-lg 2xl:text-[1.7rem]  leading-relaxed">
                 {timelineData[0].content}

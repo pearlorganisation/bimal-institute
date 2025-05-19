@@ -1,9 +1,23 @@
-import React, {useEffect} from "react";
+import { useEffect, useRef } from "react";
 import ManishOnStage from "../assets/manish-on-stage.png"
 import CountUp from "react-countup";
 import "./scadit.css";
-import { motion } from "framer-motion";
-const GradientText = () => {
+import { motion, useInView } from "framer-motion";
+
+
+const GradientText = ({ setShowPopup }) => {
+
+  const ref = useRef(null)
+  const isInView = useInView(ref, {once: true})
+
+
+  useEffect(() => {
+    if(isInView) {
+      setShowPopup(true)
+    }
+  }, [isInView, ref.current])
+
+
   useEffect(() => {
     const link = document.createElement("link");
     link.href =
@@ -11,8 +25,10 @@ const GradientText = () => {
     link.rel = "stylesheet";
     document.head.appendChild(link);
   }, []);
+
+
   return (
-    <div className="flex flex-col w-[80%] 3xl:w-[75%] mx-auto items-center">
+    <div ref={ref} className="flex flex-col w-[80%] 3xl:w-[75%] mx-auto items-center">
       <div className="flex flex-col justify-center items-center py-8 xl:pb-12">
         <h1
           className="st-text text-4xl md:text-8xl lg:text-9xl 2xl:text-[8.3rem] font-semibold text-transparent bg-clip-text"

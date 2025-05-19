@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 
 const Navbar = () => {
+
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
   const [showPrograms, setShowPrograms] = useState(false); // Show programs list
   const [showResources, setShowResources] = useState(false); // Show resources list
@@ -56,6 +57,12 @@ const Navbar = () => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    setShowPrograms(false)
+    setShowResources(false)
+    setIsOpen(false)
+  }, [location])
+
   // Function to apply active link styles
   const getLinkClass = (path) =>
     location.pathname === path
@@ -63,7 +70,7 @@ const Navbar = () => {
       : "hover:text-blue-400";
 
   return (
-    <header className="text-white max-w-[90%] lg:max-w-[85%] 2xl:w-[80%] 3xl:w-[75%]  mx-auto">
+    <header className="text-white max-w-[95%] lg:max-w-[95%] 2xl:w-[80%] 3xl:w-[75%]  mx-auto">
       <nav className="px-4 md:px-8 2xl:px-0  lg:pl-7 xl:pl-[1.85rem]  py-4 2xl:py-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center xl:space-x-1">
@@ -103,6 +110,8 @@ const Navbar = () => {
               className="relative"
               onMouseEnter={() => setShowPrograms(true)}
               onMouseLeave={() => setShowPrograms(false)}
+              onTouchStart={() => setShowPrograms(true)}
+              onTouchEnd={() => setShowPrograms(false)}
             >
               <Link
                 to="/program"
@@ -218,7 +227,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden mt-4 space-y-4 bg-black p-4 rounded-lg shadow-lg">
+          <div className="lg:hidden mt-4 space-y-4 bg-black p-4 rounded-lg shadow-lg">
             <Link
               to="/"
               className={`block transition duration-200 ${getLinkClass("/")}`}
