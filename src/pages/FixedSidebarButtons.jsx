@@ -117,7 +117,7 @@ const FixedSidebarButtons = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-start sm:justify-center bg-black bg-opacity-50 z-50 px-4">
           <div
-            className="relative bg-[#0F172A] text-white p-6 rounded-lg max-w-[18rem] sm:max-w-sm  w-full border border-gray-700 shadow-lg 
+            className="relative bg-[#0F172A] text-white p-6 rounded-lg sm:max-w-sm  w-full border border-gray-700 shadow-lg 
                     before:absolute before:inset-0 before:-m-1 before:rounded-lg 
                     before:bg-gradient-to-r before:from-blue-500 before:via-purple-500 before:to-pink-500
                     before:blur-lg before:opacity-50 before:-z-10"
@@ -174,7 +174,7 @@ const FixedSidebarButtons = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-600 px-4 py-2 rounded-md text-white w-full sm:w-auto"
+                  className="bg-gray-600 text-white px-8 py-2 text-xl rounded-xl w-full sm:w-auto"
                 >
                   Cancel
                 </button>

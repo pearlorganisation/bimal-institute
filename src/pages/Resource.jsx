@@ -19,7 +19,7 @@ function Resource() {
     const fetchBlogs = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${process.env.API_URL}/blogs`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/blogs`);
         if (res.data.success) {
           setBlogs(res.data.data);
         } else {
@@ -35,7 +35,7 @@ function Resource() {
     fetchBlogs();
   }, []);
 
-  console.log(blogs, "Nlogs Data");
+  console.log(blogs, "Blogs Data");
 
   if (loading) return <div className="spinner" />;
   return (

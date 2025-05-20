@@ -20,9 +20,6 @@ const BlogDetails = () => {
   };
 
   const { slug } = useParams();
-
-  console.log(slug, "slug");
-
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +29,7 @@ const BlogDetails = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.API_URL}/blogs/${slug}`
+          `${process.env.REACT_APP_API_URL}/blogs/${slug}`
         );
         if (res.data.success) {
           setBlogs(res.data.data);
@@ -55,15 +52,14 @@ const BlogDetails = () => {
     <>
       <Navbar />
 
-      <div className="w-full text-white overflow-hidden p-6 md:p-12 lg:p-16">
+      <div className="w-full text-white overflow-hidden p-6 md:p-12 lg:p-16 ">
         {/* Back Button aligned with image start */}
 
         {/* Image */}
-
-        <div className="flex md:flex-row flex-col  gap-2 lg:mx-24 mx-6">
+        <div className="flex flex-col w-full" >
           <button
             onClick={handleBack}
-            className="px-6 py-2 text-[#0940E6] bg-white rounded-lg font-medium transition hover:bg-gray-100 max-h-max max-w-max sm:mb-2 mt-2 whitespace-nowrap"
+            className="w-fit px-6 py-2 text-[#ffffff] text-2xl rounded-lg font-medium transition hover:text-blue-500 sm:mb-2 mt-2 whitespace-nowrap"
           >
             ← Back
           </button>
@@ -76,6 +72,7 @@ const BlogDetails = () => {
             />
           </div>
         </div>
+
 
         {/* Heading */}
         <motion.h1

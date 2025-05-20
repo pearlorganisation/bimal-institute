@@ -17,33 +17,44 @@ import CoveredEffect from "../src/components/resource/CoverdCall";
 import Test2 from "../src/pages/Test2";
 import ReactiveForm from "./pages/ReativeForm";
 import BlogDetails from "./pages/BlogDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import Blogs from "./pages/admin/Blogs";
+import Login from "./pages/admin/Login";
+import NotFound from "./components/NotFound";
+import BlogCreatePage from "./pages/admin/BlogCreatePage";
+import BlogEditPage from "./pages/admin/BlogsEditPage";
 
 function App() {
   return (
-    <div
-      className=""
-      style={{
-        width: "100%",
-        backgroundImage: Image,
-      }}
-    >
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomeLayout />} />
-          <Route path="/story" element={<OurStory />} />
-          <Route path="/program" element={<Program />} />
-          <Route path="/life-at-bimal" element={<LifeAtBimal />} />
-          <Route path="/resource" element={<Resource />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/mentorship-program" element={<MentorshipProgram />} />
-          <Route path="/membership-program" element={<MembershipProgram />} />
-          <Route path="/inner-circle-program" element={<InnerProgram />} />
-          <Route path="/blog/:slug" element={<BlogDetails />} />
 
-          <Route path="/test" element={<Test2 />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomeLayout />} />
+        <Route path="/story" element={<OurStory />} />
+        <Route path="/program" element={<Program />} />
+        <Route path="/life-at-bimal" element={<LifeAtBimal />} />
+        <Route path="/resource" element={<Resource />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/mentorship-program" element={<MentorshipProgram />} />
+        <Route path="/membership-program" element={<MembershipProgram />} />
+        <Route path="/inner-circle-program" element={<InnerProgram />} />
+        <Route path="/blog/:slug" element={<BlogDetails />} />
+
+        {/* admin */}
+        <Route path="/admin/login" element={<ProtectedRoute> <Login /> </ProtectedRoute>} />
+        <Route path="/admin/blogs" element={<ProtectedRoute> <Blogs /> </ProtectedRoute>} />
+        <Route path="/admin/blogs/create" element={<ProtectedRoute><BlogCreatePage /></ProtectedRoute>} />
+        <Route path="/admin/blogs/edit/:slug" element={<ProtectedRoute><BlogEditPage /></ProtectedRoute>} />
+        {/* <Route path="/admin/blogs/view/:slug" element={<BlogViewPage />} /> */}
+
+        <Route path="/test" element={<Test2 />} />
+
+        <Route path="*" element={<NotFound />} />
+
+      </Routes>
+    </BrowserRouter>
+
   );
 }
 

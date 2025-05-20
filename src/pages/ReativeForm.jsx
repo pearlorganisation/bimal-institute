@@ -54,7 +54,7 @@ const ExpertPopup = ({showPopup, setShowPopup}) => {
   if (!showPopup) return null;
 
   return (
-    <div className="fixed w-[70%] md:w-full  inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 px-2">
+    <div className="fixed w-full inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 px-2">
       <div className="bg-white  max-w-3xl rounded-xl overflow-auto shadow-xl relative flex flex-col md:flex-row max-h-[90vh]">
         {/* Close Button */}
         <button
