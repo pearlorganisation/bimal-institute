@@ -1,5 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
 import StudentReviews from "./StudentReviews";
 import StillQue from "../../StillQue";
 import ContactUsForm from "../../ContactUsForm";
@@ -13,6 +17,10 @@ import Img4 from "../../../assets/mentor14.webp";
 import Img5 from "../../../assets/mentor15.webp";
 import AnimatedText from "./AnimatedText";
 import TimelineItem from "./TimelineItem";
+import LearningEarningText from "./LearningEarningText";
+
+// Register ScrollTrigger with GSAP
+gsap.registerPlugin(ScrollTrigger);
 
 const MembershipProgram = () => {
   const timelineData = [
@@ -75,98 +83,88 @@ const MembershipProgram = () => {
 
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
+  // GSAP ScrollTrigger for scrollPercentage
   useEffect(() => {
-    const handleScroll = () => {
-      if (!timelineContainerRef.current) return;
+    const container = timelineContainerRef.current;
 
-      const timelineTop = timelineContainerRef.current.offsetTop;
-      const timelineHeight = timelineContainerRef.current.offsetHeight;
-      const scrollY = window.scrollY + window.innerHeight / 2;
-
-      const relativeScroll = scrollY - timelineTop;
-      const percentage = (relativeScroll / timelineHeight) * 100;
-
-      setScrollPercentage(Math.min(100, Math.max(0, percentage)));
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      sectionRefs.current.forEach((section, index) => {
-        if (!section) return;
-
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-
-        if (
-          scrollPosition >= sectionTop &&
-          scrollPosition < sectionTop + sectionHeight
-        ) {
-          setActiveSection(index);
+    // GSAP Context for scoped animations and easier cleanup
+    const ctx = gsap.context(() => {
+      // Use matchMedia for responsive ScrollTriggers
+      ScrollTrigger.matchMedia({
+        // Desktop setup (matches Tailwind's 'md' breakpoint, typically 768px)
+        "(min-width: 768px)": function () {
+          if (container) {
+            ScrollTrigger.create({
+              trigger: container,
+              start: "top center", // When the top of the container hits the center of the viewport
+              end: "bottom center", // When the bottom of the container hits the center of the viewport
+              scrub: 4, // Smoothly update on scroll
+              // markers: process.env.NODE_ENV === "development", // Uncomment for debugging
+              onUpdate: (self) => {
+                setScrollPercentage(self.progress * 100);
+              },
+              onLeaveBack: (self) => { // When scrolling up past the start
+                if (self.progress === 0) setScrollPercentage(0);
+              },
+              onEnter: (self) => { // When scrolling down past the end
+                if (self.progress === 1) setScrollPercentage(100);
+              }
+            });
+            // console.log("GSAP ScrollTrigger for desktop timeline INITIALIZED");
+          }
+        },
+        // Mobile setup
+        "(max-width: 767px)": function () {
+ 
+          setScrollPercentage(0);
+        
         }
       });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    }, timelineContainerRef); // Scope the context to the container if needed, or use document
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      ctx.revert();
     };
-  }, []);
+  }, []); 
+
+  const handleActiveSectionScroll = useCallback(() => {
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+    let newActiveSection = -1;
+
+    sectionRefs.current.forEach((section, index) => {
+      if (!section || section.offsetParent === null) return;
+
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+
+      if (
+        sectionHeight > 0 &&
+        scrollPosition >= sectionTop &&
+        scrollPosition < sectionTop + sectionHeight
+      ) {
+        newActiveSection = index;
+      }
+    });
+
+    if (newActiveSection !== -1 && newActiveSection !== activeSection) {
+      setActiveSection(newActiveSection);
+    }
+  }, [activeSection]);
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
-  }, [timelineData.length]);
 
-  useEffect(() => {
-    sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
+    if (timelineData.length > 0) {
+      // Initial call after a slight delay to ensure layout
+      const timer = setTimeout(() => handleActiveSectionScroll(), 100);
+      window.addEventListener("scroll", handleActiveSectionScroll);
 
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      sectionRefs.current.forEach((section, index) => {
-        if (!section) return;
-
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-
-        if (
-          scrollPosition >= sectionTop &&
-          scrollPosition < sectionTop + sectionHeight
-        ) {
-          setActiveSection(index);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [timelineData.length]);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollTop = window.scrollY;
-  //     const docHeight = document.body.scrollHeight - window.innerHeight;
-  //     const scrolled = (scrollTop / docHeight) * 100;
-  //     setScrollPercentage(Math.min(100, Math.max(0, scrolled)));
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("scroll", handleActiveSectionScroll);
+      };
+    }
+  }, [timelineData.length, handleActiveSectionScroll]);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -176,62 +174,8 @@ const MembershipProgram = () => {
     document.head.appendChild(link);
   }, []);
 
-  // useEffect(() => {
-  //   sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
-
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-  //     sectionRefs.current.forEach((section, index) => {
-  //       if (!section) return;
-
-  //       const sectionTop = section.offsetTop;
-  //       const sectionHeight = section.offsetHeight;
-
-  //       if (
-  //         scrollPosition >= sectionTop &&
-  //         scrollPosition < sectionTop + sectionHeight
-  //       ) {
-  //         setActiveSection(index);
-  //       }
-  //     });
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   handleScroll();
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [timelineData.length]);
-
-  // const { scrollY } = useScroll();
-
-  // const learningOpacity = useTransform(scrollY, [100, 250], [1, 0]);
-  // const strikeThroughOpacity = useTransform(
-  //   scrollY,
-  //   [200, 300, 450],
-  //   [0, 1, 0]
-  // );
-  // const earningOpacity = useTransform(scrollY, [350, 450], [0, 1]);
-  // const earningY = useTransform(scrollY, [350, 450], [50, 0]);
-
-  const targetRef = useRef(null); // only needed if using a scrollable container
+  
   const { scrollY } = useScroll(); // page scroll
-
-  // Scroll-based motion values
-  const learningOpacity = useTransform(scrollY, [100, 250], [1, 0]);
-
-  const strikeThroughOpacity = useTransform(
-    scrollY,
-    [200, 300, 450],
-    [0, 1, 0]
-  );
-  const strikeThroughY = useTransform(scrollY, [200, 300], [20, 0]);
-
-  const earningOpacity = useTransform(scrollY, [350, 450], [0, 1]);
-  const earningY = useTransform(scrollY, [350, 450], [50, 0]);
 
   useEffect(() => {
     return scrollY.onChange((v) => {
@@ -259,61 +203,19 @@ const MembershipProgram = () => {
 
       {/* SHUBHAM CODE*/}
       <div className=" hidden md:flex items-center justify-center mt-20 mb-[300px] ">
-        <motion.div
-          className="relative text-center w-[80%] cursor-pointer"
-          whileHover="hover"
-          initial="initial"
-        >
-          {/* LEARNING Text */}
-          <motion.h2
-            variants={{
-              initial: { opacity: 1 },
-              hover: { opacity: 0.4 },
-            }}
-            transition={{ duration: 0.4 }}
-            className="text-white text-[5vh] sm:text-[11vw] font-bold uppercase tracking-wide"
-            style={{ fontFamily: "'Quicksand', sans-serif" }}
-          >
-            LEARNING
-          </motion.h2>
-
-          {/* Strike-through line */}
-          <motion.span
-            variants={{
-              initial: { scaleX: 0 },
-              hover: { scaleX: 1 },
-            }}
-            transition={{ duration: 0.4 }}
-            className="absolute top-1/2 left-[200px] h-[4px] sm:h-[10px] w-[70%] bg-white"
-          // style={{ transform: "translate(-50%, -50%)" }}
-          />
-
-          {/* EARNING Text */}
-          <motion.h2
-            variants={{
-              initial: { opacity: 0, y: 20 },
-              hover: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.4 }}
-            className="absolute inset-0 top-1/2 text-white text-[5vh] sm:text-[11vw] font-bold uppercase tracking-wide"
-            style={{
-              fontFamily: "'Quicksand', sans-serif",
-            }}
-          >
-            EARNING
-          </motion.h2>
-        </motion.div>
+        <LearningEarningText />
       </div>
 
       <div className="min-h-screen hidden md:block bg-black text-white p-4">
-        <div className="max-w-4xl mx-auto" ref={timelineContainerRef}>
+        <div className="max-w-4xl mx-auto relative" ref={timelineContainerRef}>
           <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1">
+            {/* Timeline Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-700">
+              {/* Scroll-based Fill */}
               <div
-                className="absolute top-0 left-0 w-full transition-all duration-300 ease-in-out"
+                className="absolute top-0 left-0 w-full bg-[#0980FF] !transition-all !duration-500" // No transition here, GSAP handles smooth updates via 'scrub'
                 style={{
                   height: `${scrollPercentage}%`,
-                  background: `linear-gradient(to bottom, #0980FF ${scrollPercentage}%)`,
                 }}
               ></div>
             </div>

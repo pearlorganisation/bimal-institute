@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import TimelineItem from "./programDetails/TimelineItem";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import Img1 from "../../assets/mentor11.webp";
 import Img2 from "../../assets/mentor12.webp";
 import Img3 from "../../assets/mentor13.webp";
 import Img4 from "../../assets/mentor14.webp";
 import Img5 from "../../assets/mentor15.webp";
-import TraderTimelineItem from "./TraderTimelineItem";
+import TraderTimelineItem from "./TraderTimelineItem"; // Ensure this component is set up correctly
 
 const Video1 = "/Module1Market pe charcha.mp4";
 const Video2 = "/Module2Chartneeti.mp4";
@@ -14,6 +16,9 @@ const Video3 = "/Module3Smartneeti.mp4";
 const Video4 = "/6.mp4";
 const Video5 = "/5.mp4";
 const Video6 = "/Module6Option Mantra.mp4";
+
+// Register ScrollTrigger with GSAP
+gsap.registerPlugin(ScrollTrigger);
 
 const TraderProgram = () => {
   const timelineData = [
@@ -101,13 +106,11 @@ const TraderProgram = () => {
       video: Video5,
       subTitle: "Trader Hai Hum",
       content: (
+
         <ul className="list-disc pl-5 space-y-2">
-          <li>Swing Strategies By Manish Bimal</li>
-          <li>Fundamental Analysis</li>
-          <li>Artificial Intelligence</li>
-          <li>Portfolio Creation & Management</li>
-          <li>Sector Rotation & Theme Based Trading</li>
-          <li>Smart Screeners</li>
+          <li>Intraday Strategies by Manish Bimal</li>
+          <li>Risk Management</li>
+          <li>Intraday Trading Psychology</li>
         </ul>
       ),
       image: Img5,
@@ -121,9 +124,12 @@ const TraderProgram = () => {
       video: Video4,
       content: (
         <ul className="list-disc pl-5 space-y-2">
-          <li>Intraday Strategies by Manish Bimal</li>
-          <li>Risk Management</li>
-          <li>Intraday Trading Psychology</li>
+          <li>Swing Strategies By Manish Bimal</li>
+          <li>Fundamental Analysis</li>
+          <li>Artificial Intelligence</li>
+          <li>Portfolio Creation & Management</li>
+          <li>Sector Rotation & Theme Based Trading</li>
+          <li>Smart Screeners</li>
         </ul>
       ),
       image: Img4,
@@ -154,104 +160,113 @@ const TraderProgram = () => {
       imageLeft: true,
     },
   ];
+
   const [activeSection, setActiveSection] = useState(0);
-  const sectionRefs = useRef([]);
-
-  const timelineContainerRef = useRef(null);
-
+  const sectionRefs = useRef([]); // To be populated by TraderTimelineItem children
+  const timelineContainerRef = useRef(null); // For the desktop timeline container
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
+  // GSAP ScrollTrigger for scrollPercentage
   useEffect(() => {
-    const handleScroll = () => {
-      if (!timelineContainerRef.current) return;
+    const container = timelineContainerRef.current;
 
-      const timelineTop = timelineContainerRef.current.offsetTop;
-      const timelineHeight = timelineContainerRef.current.offsetHeight;
-      const scrollY = window.scrollY + window.innerHeight / 2;
-
-      const relativeScroll = scrollY - timelineTop;
-      const percentage = (relativeScroll / timelineHeight) * 100;
-
-      setScrollPercentage(Math.min(100, Math.max(0, percentage)));
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      sectionRefs.current.forEach((section, index) => {
-        if (!section) return;
-
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-
-        if (
-          scrollPosition >= sectionTop &&
-          scrollPosition < sectionTop + sectionHeight
-        ) {
-          setActiveSection(index);
+    // GSAP Context for scoped animations and easier cleanup
+    const ctx = gsap.context(() => {
+      // Use matchMedia for responsive ScrollTriggers
+      ScrollTrigger.matchMedia({
+        // Desktop setup (matches Tailwind's 'md' breakpoint, typically 768px)
+        "(min-width: 768px)": function() {
+          if (container) {
+            ScrollTrigger.create({
+              trigger: container,
+              start: "top center", // When the top of the container hits the center of the viewport
+              end: "bottom center", // When the bottom of the container hits the center of the viewport
+              scrub: 4, // Smoothly update on scroll
+              // markers: process.env.NODE_ENV === "development", // Uncomment for debugging
+              onUpdate: (self) => {
+                setScrollPercentage(self.progress * 100);
+              },
+              onLeaveBack: (self) => { // When scrolling up past the start
+                if (self.progress === 0) setScrollPercentage(0);
+              },
+              onEnter: (self) => { // When scrolling down past the end
+                if (self.progress === 1) setScrollPercentage(100);
+              }
+            });
+            // console.log("GSAP ScrollTrigger for desktop timeline INITIALIZED");
+          }
+        },
+        // Mobile setup
+        "(max-width: 767px)": function() {
+          // On mobile, the desktop timeline is hidden.
+          // Ensure scrollPercentage is 0 and no ScrollTrigger is active for it.
+          setScrollPercentage(0);
+          // console.log("GSAP ScrollTrigger: Mobile view, scrollPercentage set to 0");
         }
       });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    }, timelineContainerRef); // Scope the context to the container if needed, or use document
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      ctx.revert(); // Cleanup GSAP animations and ScrollTriggers
+      // console.log("GSAP Context REVERTED for scrollPercentage");
     };
-  }, []);
+  }, []); // Empty dependency array: runs once on mount and cleans up on unmount
+
+    const handleActiveSectionScroll = useCallback(() => {
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+    let newActiveSection = -1;
+
+    sectionRefs.current.forEach((section, index) => {
+      if (!section || section.offsetParent === null) return;
+
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+
+      if (
+        sectionHeight > 0 &&
+        scrollPosition >= sectionTop &&
+        scrollPosition < sectionTop + sectionHeight
+      ) {
+        newActiveSection = index;
+      }
+    });
+
+    if (newActiveSection !== -1 && newActiveSection !== activeSection) {
+      setActiveSection(newActiveSection);
+    }
+  }, [activeSection]);
 
   useEffect(() => {
     sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
-  }, [timelineData.length]);
 
+    if (timelineData.length > 0) {
+      // Initial call after a slight delay to ensure layout
+      const timer = setTimeout(() => handleActiveSectionScroll(), 100);
+      window.addEventListener("scroll", handleActiveSectionScroll);
+      
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("scroll", handleActiveSectionScroll);
+      };
+    }
+  }, [timelineData.length, handleActiveSectionScroll]);
+
+
+  // Effect for loading Google Fonts
   useEffect(() => {
     const link = document.createElement("link");
     link.href =
-      "https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Quicksand:wght@681&family=League+Spartan:wght@400;500;600;700&display=swap";
+      "https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Quicksand:wght@681&family=League+Spartan:wght@400;500;600;700&family=Hind:wght@600&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
   }, []);
 
-  useEffect(() => {
-    sectionRefs.current = sectionRefs.current.slice(0, timelineData.length);
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      sectionRefs.current.forEach((section, index) => {
-        if (!section) return;
-
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-
-        if (
-          scrollPosition >= sectionTop &&
-          scrollPosition < sectionTop + sectionHeight
-        ) {
-          setActiveSection(index);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [timelineData.length]);
 
   return (
-    <div div className="w-[80%] 3xl:w-[75%] mx-auto">
+    <div className="w-[80%] 3xl:w-[75%] mx-auto">
       <div className="py-6 md:pt-32 2xl:pt-40 pb-6 flex justify-center items-center text-center">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
@@ -265,30 +280,21 @@ const TraderProgram = () => {
         </motion.h2>
       </div>
 
-      {/* SHUBHAM CODE*/}
-
+      {/* DESKTOP TIMELINE */}
       <div className="min-h-screen hidden md:block text-white p-4">
         <div className="max-w-4xl mx-auto relative" ref={timelineContainerRef}>
           {/* Timeline Line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-700">
             {/* Scroll-based Fill */}
             <div
-              className="absolute top-0 left-0 w-full transition-all duration-300 ease-in-out"
-              // style={{
-              //   height: `${scrollPercentage}%`,
-              //   background: `linear-gradient(to bottom, blue ${scrollPercentage}%)`,
-              // }}
+              className="absolute top-0 left-0 w-full bg-[#0980FF] !transition-all !duration-500" // No transition here, GSAP handles smooth updates via 'scrub'
               style={{
                 height: `${scrollPercentage}%`,
-                background: `linear-gradient(to bottom, #0980FF ${scrollPercentage}%)`,
               }}
             ></div>
           </div>
 
-          {/* Top Circular Marker */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
-
-          {/* Timeline Items */}
           <div className="relative z-10">
             <div className="h-[50px]"></div>
             {timelineData.map((item, index) => (
@@ -296,495 +302,62 @@ const TraderProgram = () => {
                 key={item.id}
                 item={item}
                 index={index}
+                // Pass sectionRefs and index to allow TraderTimelineItem to set its ref
                 sectionRefs={sectionRefs}
               />
             ))}
-            {/* <div className="h-[200px]"></div> */}
           </div>
-
-          {/* Bottom Circular Marker */}
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full z-20"></div>
         </div>
       </div>
 
-      {/* ////monbile view----------------------- ////monbile */}
-      <main class="flex md:hidden  text-white relative pt-8 pb-8  sm:py-16 flex-wrap">
-        <div class="sidebar-1 w-full md:w-6/12 border-r-0 md:border-r-2 border-white relative flex flex-col">
-          <div class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-          <div class="absolute bottom-[-1rem] right-0 transform translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full hidden md:block"></div>
-
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10">
+      {/* MOBILE VIEW - Mapped for maintainability */}
+      <main className="flex md:hidden text-white relative pt-8 pb-8 sm:py-16 flex-col">
+        {timelineData.map((item) => (
+          <div key={item.id} className="w-full">
+            {/* Module Info Card */}
+            <div className="card flex-1 flex flex-col pt-5 pb-5 px-5">
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="rounded-[1.8rem] p-8 mb-4"
+                style={{
+                  fontFamily: "'Quicksand', sans-serif",
+                  backgroundColor: "rgba(72, 72, 72, 0.2)",
+                }}
+              >
+                <motion.h1 /* ... title ... */ className="text-md md:text-[2rem] lg:text-[2.3rem] font-semibold opacity-40">
+                  {item.title}
+                </motion.h1>
+                <motion.h2 /* ... hindi title ... */ className="text-lg md:text-[2rem] lg:text-[2.3rem] font-semibold pt-3" style={{ fontFamily: "'Hind', serif", fontWeight: "600" }}>
+                  {item.hindiTitle}
+                </motion.h2>
+                <motion.h2 /* ... subtitle ... */ className="text-lg md:text-[1.7rem] lg:text-[2rem] font-medium opacity-25 text-gray-300 pt-3">
+                  {item.subTitle}
+                </motion.h2>
+              </motion.div>
+              {/* Module Content */}
+              <div className="pt-2 text-sm md:text-base lg:text-lg mb-4" style={{ fontFamily: "'Afacad', sans-serif" }}>
+                {item.content}
+              </div>
+            </div>
+            {/* Video Card */}
             <motion.div
-              initial={{ x: -100, opacity: 0 }}
+              initial={{ x: 100, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3 xl:pt-8 xl:py-28 xl:px h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                fontFamily: "'Quicksand', sans-serif",
-                backgroundColor: "rgba(72, 72, 72, 0.2)", // Background only 10% visible
-              }}
+              className="card flex-1 pt-5 pb-5 px-5 mb-8"
             >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
-              >
-                {timelineData[0].title}
-              </motion.h1>
-              {/* Hindi Ti
-              tle */}
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.3rem] font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                {timelineData[0].hindiTitle}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[2rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[0].subTitle}
-              </motion.h2>
+              <video controls className="w-full rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white">
+                <source src={item.video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </motion.div>
-            <p class=" pt-2  text-sm md:text-base lg:text-lg font-Afacad">
-              {timelineData[0].content}
-            </p>
           </div>
-
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
-          >
-            {" "}
-            <video
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-            >
-              <source src={timelineData[0].video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </motion.div>
-
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 flex flex-col  pt-5 md:pt-40 pb-5 md:pb-24 px-5 md:px-10"
-          >
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)",
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
-              >
-                {timelineData[1].title}
-              </motion.h1>
-              {/* Hindi Title */}
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.3rem]  font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                {timelineData[1].hindiTitle}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[2rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[1].subTitle}
-              </motion.h2>
-            </div>
-            <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              {timelineData[1].content}
-            </ul>
-          </motion.div>
-
-          {/* video components module 2 */}
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
-          >
-            {" "}
-            <video
-              // ref={(el) => (videosRef.current[0] = el)}
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] "
-              // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
-            >
-              <source src={timelineData[1].video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </motion.div>
-
-          {/* module components  smartneeti 3*/}
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 flex flex-col  pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
-          >
-            <div
-              class=" rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                fontFamily: "'Quicksand', sans-serif",
-                backgroundColor: "rgba(72, 72, 72, 0.2)", // Background only 10% visible
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[2].title}
-              </motion.h1>
-              {/* Hindi Title */}
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.3rem]  font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                {timelineData[2].hindiTitle}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[2rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[2].subTitle}
-              </motion.h2>
-            </div>
-            <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              {timelineData[2].content}
-            </ul>
-          </motion.div>
-
-          {/* video components module 3 */}
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 pt-5 md:pt-40 pb-5 md:pb-24 px-5 md:px-10 "
-          >
-            {" "}
-            <video
-              // ref={(el) => (videosRef.current[4] = el)}
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-              // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
-            >
-              <source src={timelineData[2].video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </motion.div>
-        </div>
-
-        {/*  rightside ..<!-- Main Content --> */}
-        <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          class="main-container-1 w-full md:w-6/12 flex flex-col"
-        >
-          {/* module components  gurugyan 4*/}
-          <div class="card flex-1 flex flex-col  pt-5 md:pt-40 pb-5 md:pb-24 px-5 md:px-10">
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3 h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)", // Background only 10% visible
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[3].title}
-              </motion.h1>
-              {/* Hindi Title */}
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.3rem]  font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                {timelineData[3].hindiTitle}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[2rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[3].subTitle}
-              </motion.h2>
-            </div>
-            <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              {timelineData[3].content}
-            </ul>
-          </div>
-
-          {/* video components  module 4*/}
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
-          >
-            {" "}
-            <video
-              // ref={(el) => (videosRef.current[1] = el)}
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] "
-              // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
-            >
-              <source src={timelineData[3].video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </motion.div>
-
-          {/* module components sada profitable 5 */}
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 flex flex-col  pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10"
-          >
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3 h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)", // Background only 10% visible
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[4].title}
-              </motion.h1>
-              {/* Hindi Title */}
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.3rem]  font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                {timelineData[4].hindiTitle}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[2rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[4].subTitle}
-              </motion.h2>
-            </div>
-            <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              {timelineData[4].content}
-            </ul>
-          </motion.div>
-
-          {/* video components module 5 */}
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 pt-5 md:pt-40 pb-5 md:pb-24 px-5 md:px-10 "
-          >
-            {" "}
-            <video
-              // ref={(el) => (videosRef.current[5] = el)}
-              controls
-              className="w-full md:w-full rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[100%] "
-              // poster="https://via.placeholder.com/400x200?text=Video+Placeholder"
-            >
-              <source src={timelineData[4].video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </motion.div>
-
-          {/* module components  optionMantra 6*/}
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 flex flex-col  pt-5 md:pt-40 pb-5 md:pb-24 px-5 md:px-10"
-          >
-            <div
-              class="   rounded-[1.8rem] p-8 md:pt-12 md:px-4 lg:pt-8 lg:px-3  h-[182px] md:h-[230px] lg:h-[215px] "
-              style={{
-                backgroundColor: "rgba(72, 72, 72, 0.2)", // Background only 10% visible
-              }}
-            >
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.4, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text- md:text-[2rem] lg:text-[2.3rem]  font-semibold opacity-40"
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {}
-                {timelineData[5].title}
-              </motion.h1>
-              {/* Hindi Title */}
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="text-lg md:text-[2rem] lg:text-[2.3rem]  font-semibold  pt-3  "
-                style={{
-                  fontFamily: "'Hind', serif",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  opacity: 1,
-                }}
-              >
-                {timelineData[5].hindiTitle}
-              </motion.h2>
-              <motion.h2
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 0.25, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }} // Triggers each time it enters the viewport
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                class="text-lg md:text-[1.7rem] lg:text-[2rem]  font-medium opacity-25  text-gray-300 pt-3 "
-                style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                }}
-              >
-                {timelineData[5].subTitle}
-              </motion.h2>
-            </div>
-            <ul className="pt-2 text-sm md:text-base lg:text-lg font-Afacad list-disc list-inside">
-              {timelineData[5].content}
-            </ul>
-          </motion.div>
-
-          {/* video components  module 6*/}
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            class="card flex-1 pt-5 md:pt-24 pb-5 md:pb-24 px-5 md:px-10 "
-          >
-            <video
-              // ref={(el) => (videosRef.current[2] = el)}
-              controls
-              className="w-full md:w-full  rounded-[1.2rem] sm:rounded-[2.2rem] border-2 border-white block md:h-[128%] lg:h-[94%] "
-            >
-              <source src={timelineData[5].video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </motion.div>
-        </motion.div>
+        ))}
       </main>
     </div>
   );

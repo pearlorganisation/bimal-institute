@@ -26,7 +26,7 @@ export default function PixelsWithPurpose() {
             start: "50% bottom",
             end: "bottom bottom",
             scrub: 5, // smoother scrub
-            markers: true, // Enable for debugging
+            // markers: true, // Enable for debugging
           },
         }
       );
@@ -41,8 +41,8 @@ export default function PixelsWithPurpose() {
       {/* Background image */}
       <motion.img
         ref={imgRef}
-        initial={{ opacity: 0, y: 50 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        // initial={{ opacity: 0, y: 50 }}
+        // animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
         src="/polkaBg.webp"
