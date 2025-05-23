@@ -63,7 +63,7 @@ const BlogEditPage = () => {
         <h1 className="text-2xl font-bold text-red-600 mb-6">Error</h1>
         <p className="text-gray-700">{message.text || "Could not load blog data."}</p>
         <Link to="/admin/blogs" className="mt-4 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
-          Back to Blogs List
+          ← Back
         </Link>
       </div>
     );

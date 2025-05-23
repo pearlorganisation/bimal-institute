@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchBlogs, deleteBlogById } from '../../services/api';
+import { fetchBlogs, deleteBlogById, logout } from '../../services/api';
 import { FaPlus, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -54,13 +55,27 @@ const Blogs = () => {
     }
   };
 
+
+  const handleLogout = async () => {
+    await logout().then(res => {
+      toast(res?.data?.message)
+    }).finally(() => {
+      navigate('/admin/login')
+    })
+  }
+
+
+
   if (loading && blogs.length === 0) return <div className="text-center p-10">Loading blogs...</div>;
   if (error) return <div className="text-center p-10 text-red-500">{error}</div>;
 
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h1 className="text-3xl font-bold text-white">Manage Blogs</h1>
+        <div className='w-full flex justify-center'>
+          <button className="bg-red-500 hover:bg-red-600 text-white rounded-sm"></button>
+          <h1 className="text-3xl font-bold text-white">Manage Blogs</h1>
+        </div>
         <Link
           to="/admin/blogs/create"
           className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 ease-in-out"

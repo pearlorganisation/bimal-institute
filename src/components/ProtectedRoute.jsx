@@ -5,10 +5,13 @@ export default function ProtectedRoute({ children }) {
     const navigate = useNavigate();
     const location = useLocation()
       useEffect(() => {
+
+        console.log(location)
+
             if (!localStorage.getItem('bimalInsTkn')) {
                 navigate('/admin/login')
             }
-        }, [location])
+        }, [location?.pathname])
     return (
         <>
             {children}

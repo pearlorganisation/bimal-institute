@@ -64,4 +64,14 @@ export const uploadContentImage = (formData) => {
   });
 };
 
+
+export const logout =  () => {
+  return apiClient.post('/auth/logout',{}, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+
+
 export default apiClient;
