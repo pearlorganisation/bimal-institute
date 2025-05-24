@@ -84,7 +84,7 @@ const Gallery = () => {
         >
           <div className="relative p-4 max-w-4xl mx-auto">
             <button
-              className="absolute top-2 right-4 text-white text-3xl font-bold hover:text-red-500"
+              className="absolute top-4 right-6 text-white text-4xl xl:text-5xl font-bold hover:text-red-500"
               onClick={closeModal}
             >
               &times;
@@ -93,7 +93,7 @@ const Gallery = () => {
               src={selectedImage}
               alt="Enlarged"
               loading="lazy"
-              className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
+              className="w-full max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
             />
           </div>
         </div>

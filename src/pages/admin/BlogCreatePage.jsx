@@ -13,7 +13,7 @@ const CreateBlogs = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  // const [author, setAuthor] = useState("");
   const [thumbImage, setThumbImage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -28,10 +28,10 @@ const CreateBlogs = () => {
       return; // Stop submission
     }
 
-    if (!author.trim()) {
-      setError("Blog Author is required.");
-      return; // Stop submission
-    }
+    // if (!author.trim()) {
+    //   setError("Blog Author is required.");
+    //   return; // Stop submission
+    // }
 
     if (!thumbImage) {
       setError("Featured Image is required.");
@@ -53,32 +53,19 @@ const CreateBlogs = () => {
 
     formData.append('title', title.trim())
     formData.append('content', content)
-    formData.append('author', author.trim())
     formData.append('thumbImage', thumbImage)
-
-
-    // {
-    //   title: title.trim(), // Trim whitespace
-    //   content: content, // Send the HTML content
-    //   author: author.trim(), // Trim whitespace
-    //   thumbImage: thumbImage, // Will be "" if not uploaded
-    // }
 
 
 
     await createBlogPost(formData).then((res) => {
       if (res?.meta?.requestStatus === "fulfilled" || res?.data?.success) {
-        // Clear form on success
         setTitle("");
-        setContent(""); // Clear editor content
-        setAuthor("");
+        setContent("");
         setThumbImage("");
         toast.success(res?.data?.message)
         navigate('/admin/blogs');
       } else {
-        // Handle errors from your addBlog action (e.g., server-side validation failure)
         console.error("Failed to create blog:", res.payload);
-        // Display server-side error message if available
         setError(res.payload?.message || "Failed to create blog. Please try again.");
       }
     });
@@ -129,8 +116,8 @@ const CreateBlogs = () => {
 
           </div>
 
-          {/* Slug Input Field */}
-          <div>
+        
+          {/* <div>
             <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-2">
               Author <span className="text-red-500">*</span>
             </label>
@@ -143,7 +130,7 @@ const CreateBlogs = () => {
               placeholder="Enter Author name"
               required
             />
-          </div>
+          </div> */}
 
 
           <div>
@@ -166,7 +153,7 @@ const CreateBlogs = () => {
                 <img 
                 src={URL.createObjectURL(thumbImage)}
                  alt="Preview banner image for the blog" 
-                className="w-[200px] "
+                className="w-full "
                  />
               )}
 

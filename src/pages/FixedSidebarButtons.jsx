@@ -73,6 +73,17 @@ const FixedSidebarButtons = () => {
     document.head.appendChild(link);
   }, []);
 
+
+
+  const whatsappLink = "https://wa.me/918889422299";
+
+  const openWhatsApp = () => {
+    // window.open(url, target, features)
+    // target='_blank' opens in a new tab
+    // 'noopener noreferrer' are important for security when opening new tabs to external sites
+    window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <>
       {/* Sidebar Buttons */}
@@ -85,7 +96,8 @@ const FixedSidebarButtons = () => {
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.2, delay: 0.6 }}
             onClick={() => setIsModalOpen(true)}
-            className="bg-gradient-to-r from-[#3195FF]  to-[#0980FF] rounded text-white text-[0.75rem] sm:text-base   3xl:text-[1rem]   2xl:px-3   3xl:py-[0.4rem] font-semibold px-3 py-1 w-54 
+            type="button"
+            className="bg-gradient-to-r from-[#3195FF] to-[#0980FF] rounded text-white text-[0.75rem] sm:text-base   3xl:text-[1rem]   2xl:px-3   3xl:py-[0.4rem] font-semibold px-3 py-1 w-54 
                      text-center origin-left rounded-r-lg shadow-md"
           >
             Download Brochure{" "}
@@ -94,22 +106,21 @@ const FixedSidebarButtons = () => {
 
         {/* WhatsApp Us Button */}
         <div className="transform -rotate-90">
-          <motion.a
+          <motion.button
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.2, delay: 0.6 }}
-            href="https://wa.me/918889422299"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-r from-[#3195FF]  to-[#0980FF] rounded text-white text-[0.75rem] sm:text-base 3xl:text-[1.2rem]  2xl:px-3     3xl:py-[0.9rem] font-semibold px-4 py-2 xl:py-[0.3] 
+            onClick={openWhatsApp}
+            type="button"
+             className="bg-gradient-to-r from-[#3195FF] to-[#0980FF] rounded text-white text-[0.75rem] sm:text-base   3xl:text-[1rem]   2xl:px-3   3xl:py-[0.4rem] font-semibold px-3 py-1 w-54 
                      text-center origin-left rounded-r-lg shadow-md"
             style={{
               fontFamily: "'League Spartan', sans-serif",
             }}
           >
             WhatsApp Us
-          </motion.a>
+          </motion.button>
         </div>
       </div>
 
