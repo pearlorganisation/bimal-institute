@@ -10,6 +10,7 @@ const Blogs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [loggingOut, setLogginOut] = useState(false)
   const navigate = useNavigate();
 
   const loadBlogs = async (page = 1, limit = 10, search = '') => {
@@ -57,9 +58,11 @@ const Blogs = () => {
 
 
   const handleLogout = async () => {
+    setLogginOut(true)
     await logout().then(res => {
       toast(res?.data?.message)
     }).finally(() => {
+      setLogginOut(false)
       navigate('/admin/login')
     })
   }
@@ -72,17 +75,23 @@ const Blogs = () => {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <div className='w-full flex justify-center'>
-          <button className="bg-red-500 hover:bg-red-600 text-white rounded-sm"></button>
+        <div className='w-full flex justify-between'>
+          <button 
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 text-white rounded-sm px-2 text-xl"
+          disabled={loggingOut}
+          >
+           {loggingOut ? "Logging Out..." : "Logout"}
+          </button>
           <h1 className="text-3xl font-bold text-white">Manage Blogs</h1>
+          <Link
+            to="/admin/blogs/create"
+            className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 ease-in-out"
+          >
+            <FaPlus className="h-5 w-5 mr-2" />
+            Create New Blog
+          </Link>
         </div>
-        <Link
-          to="/admin/blogs/create"
-          className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 ease-in-out"
-        >
-          <FaPlus className="h-5 w-5 mr-2" />
-          Create New Blog
-        </Link>
       </div>
 
       {/* <div className="mb-6">
